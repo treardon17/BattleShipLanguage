@@ -1,0 +1,16 @@
+player Tyler
+computer Putin
+Tyler = newPlayer("Tyler")
+Putin = newComputer("Putin")
+Tyler->randomlyAddBoats(9)
+Putin->randomlyAddBoats(9)
+loop:
+  Tyler->attack("")->Putin
+  if Putin->findsBoat():
+    Putin->trySink("up",1)->Tyler
+    Putin->show()
+  endif.
+  else:
+    Putin->seek(3)->Tyler
+  endelse.
+endloop.

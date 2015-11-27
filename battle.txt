@@ -1,0 +1,36 @@
+computer Vlad
+computer Putin
+Vlad = newComputer("Vlad")
+Putin = newComputer("Putin")
+Vlad->addBoat("patrolboat", 'g', 14, 'h')
+Vlad->randomlyAddBoats(9)
+Putin->randomlyAddBoats(9)
+loop:
+  if Vlad->findsBoat():
+    Vlad->trySink("up",1)->Putin
+  endif.
+  else:
+    Vlad->seek(5)->Putin
+  endelse.
+
+  if Putin->findsBoat():
+    Putin->trySink("up",1)->Vlad
+  endif.
+  else:
+    Putin->seek(3)->Vlad
+  endelse.
+endloop.
+
+Putin->show()
+Vlad->show()
+
+
+//1.if Vlad->findsBoat():
+  //1.try Vlad->trySink("up", 1)
+  //1.when 1.try.fails: 2.try Vlad->trySink("down", 1)
+  //1.when 2.try.fails: 3.try Vlad->trySink("right", 1)
+  //1.when 3.try.fails: 4.try Vlad->trySink("left", 1)
+//1.endif.
+//1.else
+  //Vlad->seek(6)->Putin
+//1.endelse.

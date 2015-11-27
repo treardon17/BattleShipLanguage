@@ -1,0 +1,512 @@
+Terminals which are not used
+
+   GRIDLITERAL
+   GRIDTYPE
+   '+'
+   '-'
+   '*'
+   '/'
+
+
+Grammar
+
+    0 $accept: input $end
+
+    1 input: /* empty */
+    2      | input line
+
+    3 line: IDENTIFIER ASSIGNOP expr
+    4     | typedecl IDENTIFIER
+    5     | IDENTIFIER ACTIONSYMBOL action
+    6     | BEGINLOOP STATEMENTNUMSYMBOLSTART
+    7     | ENDLOOP
+    8     | BEGINIFCOND boolcond STATEMENTNUMSYMBOLSTART
+    9     | ENDIFCOND
+   10     | BEGINELSE STATEMENTNUMSYMBOLSTART
+   11     | ENDELSE
+   12     | INTLITERAL STATEMENTNUMSYMBOL TRYSTATEMENT STATEMENTNUMSYMBOLSTART
+   13     | WHENSTATEMENT
+
+   14 boolcond: IDENTIFIER ACTIONSYMBOL FINDSBOAT
+
+   15 action: ADDBOATACTION
+   16       | ATTACKBOATACTION ACTIONSYMBOL IDENTIFIER
+   17       | SEEKACTION ACTIONSYMBOL IDENTIFIER
+   18       | SHOWVARACTION
+   19       | RANDOMADDBOATACTION
+   20       | TRYSINKACTION ACTIONSYMBOL IDENTIFIER
+
+   21 expr: INTLITERAL
+   22     | CHARLITERAL
+   23     | STRINGLITERAL
+   24     | PLAYERLITERAL
+   25     | COMPUTERLITERAL
+   26     | IDENTIFIER
+
+   27 typedecl: INTTYPE
+   28         | CHARTYPE
+   29         | STRINGTYPE
+   30         | PLAYERTYPE
+   31         | COMPUTERTYPE
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'*' (42)
+'+' (43)
+'-' (45)
+'/' (47)
+error (256)
+STATEMENTNUMSYMBOL (258) 12
+STATEMENTNUMSYMBOLSTART (259) 6 8 10 12
+BEGINLOOP (260) 6
+ENDLOOP (261) 7
+ACTIONSYMBOL (262) 5 14 16 17 20
+TRYSINKACTION (263) 20
+SHOWVARACTION (264) 18
+ADDBOATACTION (265) 15
+ATTACKBOATACTION (266) 16
+RANDOMADDBOATACTION (267) 19
+SEEKACTION (268) 17
+BEGINIFCOND (269) 8
+ENDIFCOND (270) 9
+FINDSBOAT (271) 14
+BEGINELSE (272) 10
+ENDELSE (273) 11
+WHENSTATEMENT (274) 13
+TRYSTATEMENT (275) 12
+COMPUTERLITERAL (276) 25
+PLAYERLITERAL (277) 24
+GRIDLITERAL (278)
+STRINGLITERAL (279) 23
+CHARLITERAL (280) 22
+INTLITERAL (281) 12 21
+IDENTIFIER (282) 3 4 5 14 16 17 20 26
+INTTYPE (283) 27
+CHARTYPE (284) 28
+STRINGTYPE (285) 29
+GRIDTYPE (286)
+PLAYERTYPE (287) 30
+COMPUTERTYPE (288) 31
+ASSIGNOP (289) 3
+
+
+Nonterminals, with rules where they appear
+
+$accept (39)
+    on left: 0
+input (40)
+    on left: 1 2, on right: 0 2
+line (41)
+    on left: 3 4 5 6 7 8 9 10 11 12 13, on right: 2
+boolcond (42)
+    on left: 14, on right: 8
+action (43)
+    on left: 15 16 17 18 19 20, on right: 5
+expr (44)
+    on left: 21 22 23 24 25 26, on right: 3
+typedecl (45)
+    on left: 27 28 29 30 31, on right: 4
+
+
+state 0
+
+    0 $accept: . input $end
+
+    $default  reduce using rule 1 (input)
+
+    input  go to state 1
+
+
+state 1
+
+    0 $accept: input . $end
+    2 input: input . line
+
+    $end           shift, and go to state 2
+    BEGINLOOP      shift, and go to state 3
+    ENDLOOP        shift, and go to state 4
+    BEGINIFCOND    shift, and go to state 5
+    ENDIFCOND      shift, and go to state 6
+    BEGINELSE      shift, and go to state 7
+    ENDELSE        shift, and go to state 8
+    WHENSTATEMENT  shift, and go to state 9
+    INTLITERAL     shift, and go to state 10
+    IDENTIFIER     shift, and go to state 11
+    INTTYPE        shift, and go to state 12
+    CHARTYPE       shift, and go to state 13
+    STRINGTYPE     shift, and go to state 14
+    PLAYERTYPE     shift, and go to state 15
+    COMPUTERTYPE   shift, and go to state 16
+
+    line      go to state 17
+    typedecl  go to state 18
+
+
+state 2
+
+    0 $accept: input $end .
+
+    $default  accept
+
+
+state 3
+
+    6 line: BEGINLOOP . STATEMENTNUMSYMBOLSTART
+
+    STATEMENTNUMSYMBOLSTART  shift, and go to state 19
+
+
+state 4
+
+    7 line: ENDLOOP .
+
+    $default  reduce using rule 7 (line)
+
+
+state 5
+
+    8 line: BEGINIFCOND . boolcond STATEMENTNUMSYMBOLSTART
+
+    IDENTIFIER  shift, and go to state 20
+
+    boolcond  go to state 21
+
+
+state 6
+
+    9 line: ENDIFCOND .
+
+    $default  reduce using rule 9 (line)
+
+
+state 7
+
+   10 line: BEGINELSE . STATEMENTNUMSYMBOLSTART
+
+    STATEMENTNUMSYMBOLSTART  shift, and go to state 22
+
+
+state 8
+
+   11 line: ENDELSE .
+
+    $default  reduce using rule 11 (line)
+
+
+state 9
+
+   13 line: WHENSTATEMENT .
+
+    $default  reduce using rule 13 (line)
+
+
+state 10
+
+   12 line: INTLITERAL . STATEMENTNUMSYMBOL TRYSTATEMENT STATEMENTNUMSYMBOLSTART
+
+    STATEMENTNUMSYMBOL  shift, and go to state 23
+
+
+state 11
+
+    3 line: IDENTIFIER . ASSIGNOP expr
+    5     | IDENTIFIER . ACTIONSYMBOL action
+
+    ACTIONSYMBOL  shift, and go to state 24
+    ASSIGNOP      shift, and go to state 25
+
+
+state 12
+
+   27 typedecl: INTTYPE .
+
+    $default  reduce using rule 27 (typedecl)
+
+
+state 13
+
+   28 typedecl: CHARTYPE .
+
+    $default  reduce using rule 28 (typedecl)
+
+
+state 14
+
+   29 typedecl: STRINGTYPE .
+
+    $default  reduce using rule 29 (typedecl)
+
+
+state 15
+
+   30 typedecl: PLAYERTYPE .
+
+    $default  reduce using rule 30 (typedecl)
+
+
+state 16
+
+   31 typedecl: COMPUTERTYPE .
+
+    $default  reduce using rule 31 (typedecl)
+
+
+state 17
+
+    2 input: input line .
+
+    $default  reduce using rule 2 (input)
+
+
+state 18
+
+    4 line: typedecl . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 26
+
+
+state 19
+
+    6 line: BEGINLOOP STATEMENTNUMSYMBOLSTART .
+
+    $default  reduce using rule 6 (line)
+
+
+state 20
+
+   14 boolcond: IDENTIFIER . ACTIONSYMBOL FINDSBOAT
+
+    ACTIONSYMBOL  shift, and go to state 27
+
+
+state 21
+
+    8 line: BEGINIFCOND boolcond . STATEMENTNUMSYMBOLSTART
+
+    STATEMENTNUMSYMBOLSTART  shift, and go to state 28
+
+
+state 22
+
+   10 line: BEGINELSE STATEMENTNUMSYMBOLSTART .
+
+    $default  reduce using rule 10 (line)
+
+
+state 23
+
+   12 line: INTLITERAL STATEMENTNUMSYMBOL . TRYSTATEMENT STATEMENTNUMSYMBOLSTART
+
+    TRYSTATEMENT  shift, and go to state 29
+
+
+state 24
+
+    5 line: IDENTIFIER ACTIONSYMBOL . action
+
+    TRYSINKACTION        shift, and go to state 30
+    SHOWVARACTION        shift, and go to state 31
+    ADDBOATACTION        shift, and go to state 32
+    ATTACKBOATACTION     shift, and go to state 33
+    RANDOMADDBOATACTION  shift, and go to state 34
+    SEEKACTION           shift, and go to state 35
+
+    action  go to state 36
+
+
+state 25
+
+    3 line: IDENTIFIER ASSIGNOP . expr
+
+    COMPUTERLITERAL  shift, and go to state 37
+    PLAYERLITERAL    shift, and go to state 38
+    STRINGLITERAL    shift, and go to state 39
+    CHARLITERAL      shift, and go to state 40
+    INTLITERAL       shift, and go to state 41
+    IDENTIFIER       shift, and go to state 42
+
+    expr  go to state 43
+
+
+state 26
+
+    4 line: typedecl IDENTIFIER .
+
+    $default  reduce using rule 4 (line)
+
+
+state 27
+
+   14 boolcond: IDENTIFIER ACTIONSYMBOL . FINDSBOAT
+
+    FINDSBOAT  shift, and go to state 44
+
+
+state 28
+
+    8 line: BEGINIFCOND boolcond STATEMENTNUMSYMBOLSTART .
+
+    $default  reduce using rule 8 (line)
+
+
+state 29
+
+   12 line: INTLITERAL STATEMENTNUMSYMBOL TRYSTATEMENT . STATEMENTNUMSYMBOLSTART
+
+    STATEMENTNUMSYMBOLSTART  shift, and go to state 45
+
+
+state 30
+
+   20 action: TRYSINKACTION . ACTIONSYMBOL IDENTIFIER
+
+    ACTIONSYMBOL  shift, and go to state 46
+
+
+state 31
+
+   18 action: SHOWVARACTION .
+
+    $default  reduce using rule 18 (action)
+
+
+state 32
+
+   15 action: ADDBOATACTION .
+
+    $default  reduce using rule 15 (action)
+
+
+state 33
+
+   16 action: ATTACKBOATACTION . ACTIONSYMBOL IDENTIFIER
+
+    ACTIONSYMBOL  shift, and go to state 47
+
+
+state 34
+
+   19 action: RANDOMADDBOATACTION .
+
+    $default  reduce using rule 19 (action)
+
+
+state 35
+
+   17 action: SEEKACTION . ACTIONSYMBOL IDENTIFIER
+
+    ACTIONSYMBOL  shift, and go to state 48
+
+
+state 36
+
+    5 line: IDENTIFIER ACTIONSYMBOL action .
+
+    $default  reduce using rule 5 (line)
+
+
+state 37
+
+   25 expr: COMPUTERLITERAL .
+
+    $default  reduce using rule 25 (expr)
+
+
+state 38
+
+   24 expr: PLAYERLITERAL .
+
+    $default  reduce using rule 24 (expr)
+
+
+state 39
+
+   23 expr: STRINGLITERAL .
+
+    $default  reduce using rule 23 (expr)
+
+
+state 40
+
+   22 expr: CHARLITERAL .
+
+    $default  reduce using rule 22 (expr)
+
+
+state 41
+
+   21 expr: INTLITERAL .
+
+    $default  reduce using rule 21 (expr)
+
+
+state 42
+
+   26 expr: IDENTIFIER .
+
+    $default  reduce using rule 26 (expr)
+
+
+state 43
+
+    3 line: IDENTIFIER ASSIGNOP expr .
+
+    $default  reduce using rule 3 (line)
+
+
+state 44
+
+   14 boolcond: IDENTIFIER ACTIONSYMBOL FINDSBOAT .
+
+    $default  reduce using rule 14 (boolcond)
+
+
+state 45
+
+   12 line: INTLITERAL STATEMENTNUMSYMBOL TRYSTATEMENT STATEMENTNUMSYMBOLSTART .
+
+    $default  reduce using rule 12 (line)
+
+
+state 46
+
+   20 action: TRYSINKACTION ACTIONSYMBOL . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 49
+
+
+state 47
+
+   16 action: ATTACKBOATACTION ACTIONSYMBOL . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 50
+
+
+state 48
+
+   17 action: SEEKACTION ACTIONSYMBOL . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 51
+
+
+state 49
+
+   20 action: TRYSINKACTION ACTIONSYMBOL IDENTIFIER .
+
+    $default  reduce using rule 20 (action)
+
+
+state 50
+
+   16 action: ATTACKBOATACTION ACTIONSYMBOL IDENTIFIER .
+
+    $default  reduce using rule 16 (action)
+
+
+state 51
+
+   17 action: SEEKACTION ACTIONSYMBOL IDENTIFIER .
+
+    $default  reduce using rule 17 (action)
