@@ -521,10 +521,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    91,    91,    92,    95,   102,   108,   153,   158,   163,
-     169,   174,   179,   184,   189,   194,   201,   207,   217,   222,
-     234,   252,   256,   261,   272,   280,   287,   294,   302,   310,
-     324,   325,   326,   327,   328
+       0,    91,    91,    92,    95,   102,   108,   155,   160,   165,
+     171,   176,   181,   186,   191,   196,   203,   209,   219,   224,
+     236,   250,   254,   259,   270,   278,   285,   292,   300,   308,
+     322,   323,   324,   325,   326
 };
 #endif
 
@@ -1516,7 +1516,9 @@ yyreduce:
           statements.push_back(randBoat);}
         break;
 			case SeekAction:
-					{Seek* seek = new Seek((yyvsp[(1) - (3)].id), exprToInt(args.top()[0]), strdup(exprToString(args.top()[1]).c_str()));
+					//									varName		seekDistanceHorizontal	seekDistanceVertical				varAttackedName
+					//  										vv					vv													vvv										vvv
+					{Seek* seek = new Seek((yyvsp[(1) - (3)].id), exprToInt(args.top()[0]), exprToInt(args.top()[1]), strdup(exprToString(args.top()[2]).c_str()));
 					statements.push_back(seek);}
 				break;
 			case TrySinkAction:
@@ -1539,7 +1541,7 @@ yyreduce:
     break;
 
   case 7:
-#line 154 "battle.y"
+#line 156 "battle.y"
     {
         BeginLoop* bLoop = new BeginLoop(lineNumberGlobal, true);
         statements.push_back(bLoop);
@@ -1547,7 +1549,7 @@ yyreduce:
     break;
 
   case 8:
-#line 159 "battle.y"
+#line 161 "battle.y"
     {
         EndLoop* eLoop = new EndLoop();
         statements.push_back(eLoop);
@@ -1555,7 +1557,7 @@ yyreduce:
     break;
 
   case 9:
-#line 164 "battle.y"
+#line 166 "battle.y"
     {
 				BeginIfCond* bIfCond = new BeginIfCond(strdup(exprToString(exprs.top()).c_str()), CurrentBool);
 				statements.push_back(bIfCond);
@@ -1564,7 +1566,7 @@ yyreduce:
     break;
 
   case 10:
-#line 170 "battle.y"
+#line 172 "battle.y"
     {
 				EndIfCond* eIfCond = new EndIfCond();
 				statements.push_back(eIfCond);
@@ -1572,7 +1574,7 @@ yyreduce:
     break;
 
   case 11:
-#line 175 "battle.y"
+#line 177 "battle.y"
     {
 			BeginElse* bElse = new BeginElse();
 			statements.push_back(bElse);
@@ -1580,7 +1582,7 @@ yyreduce:
     break;
 
   case 12:
-#line 180 "battle.y"
+#line 182 "battle.y"
     {
 			EndElse* eElse = new EndElse();
 			statements.push_back(eElse);
@@ -1588,7 +1590,7 @@ yyreduce:
     break;
 
   case 13:
-#line 185 "battle.y"
+#line 187 "battle.y"
     {
 				BeginTryStatement* bTry = new BeginTryStatement();
 				statements.push_back(bTry);
@@ -1596,7 +1598,7 @@ yyreduce:
     break;
 
   case 14:
-#line 190 "battle.y"
+#line 192 "battle.y"
     {
 				EndTryStatement* eTry = new EndTryStatement();
 				statements.push_back(eTry);
@@ -1604,7 +1606,7 @@ yyreduce:
     break;
 
   case 15:
-#line 195 "battle.y"
+#line 197 "battle.y"
     {
 			Statement* myStatement = statements.back()->Clone();
 			statements.pop_back();
@@ -1614,14 +1616,14 @@ yyreduce:
     break;
 
   case 16:
-#line 202 "battle.y"
+#line 204 "battle.y"
     {
 
 		;}
     break;
 
   case 17:
-#line 208 "battle.y"
+#line 210 "battle.y"
     {
 		Expression* varName = new Expression();
 		varName->type = String;
@@ -1633,7 +1635,7 @@ yyreduce:
     break;
 
   case 18:
-#line 218 "battle.y"
+#line 220 "battle.y"
     {
     CurrentAction = AddBoatAction;
     args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (1)].sval)))));
@@ -1641,7 +1643,7 @@ yyreduce:
     break;
 
   case 19:
-#line 223 "battle.y"
+#line 225 "battle.y"
     {
     CurrentAction = AttackBoatAction;
 
@@ -1656,20 +1658,16 @@ yyreduce:
     break;
 
   case 20:
-#line 235 "battle.y"
+#line 237 "battle.y"
     {
 		CurrentAction = SeekAction;
 
-		Expression* seeknumber = new Expression();
-		seeknumber->type = Int;
-		seeknumber->value = (void*) new int(getIntegerValue(std::string((yyvsp[(1) - (3)].sval))));
+		std::vector<Expression*> myArgs = typifyArgs(getArguments(std::string((yyvsp[(1) - (3)].sval))));
 
 		Expression* varAttackedName = new Expression();
 		varAttackedName->type = String;
 		varAttackedName->value = (void*) new std::string((yyvsp[(3) - (3)].id));
 
-		std::vector<Expression*> myArgs;
-		myArgs.push_back(seeknumber);
 		myArgs.push_back(varAttackedName);
 
 		args.push(myArgs);
@@ -1677,14 +1675,14 @@ yyreduce:
     break;
 
   case 21:
-#line 253 "battle.y"
+#line 251 "battle.y"
     {
 	  CurrentAction = ShowVarAction;
 	;}
     break;
 
   case 22:
-#line 257 "battle.y"
+#line 255 "battle.y"
     {
 	  CurrentAction = RandomAddBoatAction;
 	  args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (1)].sval)))));
@@ -1692,7 +1690,7 @@ yyreduce:
     break;
 
   case 23:
-#line 262 "battle.y"
+#line 260 "battle.y"
     {
 		CurrentAction = TrySinkAction;
 		args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (3)].sval))))); //get direction and afterHitSeekDistance
@@ -1705,7 +1703,7 @@ yyreduce:
     break;
 
   case 24:
-#line 273 "battle.y"
+#line 271 "battle.y"
     {
 			int r = getIntegerValue(std::string((yyvsp[(1) - (1)].sval)));
       Variable* l = new Variable();
@@ -1716,7 +1714,7 @@ yyreduce:
     break;
 
   case 25:
-#line 281 "battle.y"
+#line 279 "battle.y"
     {
 			Variable* l = new Variable();
 			l->type = Char;
@@ -1726,7 +1724,7 @@ yyreduce:
     break;
 
   case 26:
-#line 288 "battle.y"
+#line 286 "battle.y"
     {
 			Variable* l = new Variable();
 			l->type = String;
@@ -1736,7 +1734,7 @@ yyreduce:
     break;
 
   case 27:
-#line 295 "battle.y"
+#line 293 "battle.y"
     {
     Variable *l = new Variable();
 		Player* p = new Player((yyvsp[(1) - (1)].sval));
@@ -1747,7 +1745,7 @@ yyreduce:
     break;
 
   case 28:
-#line 303 "battle.y"
+#line 301 "battle.y"
     {
     Variable *l = new Variable();
     Computer* c = new Computer((yyvsp[(1) - (1)].sval));
@@ -1758,7 +1756,7 @@ yyreduce:
     break;
 
   case 29:
-#line 311 "battle.y"
+#line 309 "battle.y"
     {
 			Variable* v = get_symbol((yyvsp[(1) - (1)].id));
 			if (v == NULL) {
@@ -1772,33 +1770,33 @@ yyreduce:
     break;
 
   case 30:
-#line 324 "battle.y"
+#line 322 "battle.y"
     { tCurr = Int; ;}
     break;
 
   case 31:
-#line 325 "battle.y"
+#line 323 "battle.y"
     { tCurr = Char; ;}
     break;
 
   case 32:
-#line 326 "battle.y"
+#line 324 "battle.y"
     { tCurr = String; ;}
     break;
 
   case 33:
-#line 327 "battle.y"
+#line 325 "battle.y"
     { tCurr = PlayerType; ;}
     break;
 
   case 34:
-#line 328 "battle.y"
+#line 326 "battle.y"
     { tCurr = ComputerType; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1802 "battle.tab.c"
+#line 1800 "battle.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2012,7 +2010,7 @@ yyreturn:
 }
 
 
-#line 331 "battle.y"
+#line 329 "battle.y"
 
 
 void setLoopIDs(){
@@ -2136,12 +2134,13 @@ void setTryStatementIDs(){
 
 void runGame(){
 
-	bool debug = false; //turns on debug notifications
+	bool debug = true; //turns on debug notifications
 
   //a map containing the loopID as the key, and the statement number as the value
 	std::map<int, int> loopIDs;
   bool continueLoop = true;
 	bool skipElse = false;
+	int gameLoopID = statements.size() - 1;
 
 	int currentStatementNum = 0;
 	while(currentStatementNum < statements.size()){
@@ -2188,6 +2187,11 @@ void runGame(){
 	        {
 	          BeginLoop* bLoop = dynamic_cast<BeginLoop*>(statements[currentStatementNum]);
 	          if(loopIDs.count(bLoop->getLoopID()) == 0){
+
+							//set the first loop to be the "game loop"
+							if(loopIDs.size() == 0){
+									gameLoopID = bLoop->getLoopID();
+							}
 	            loopIDs.insert(std::pair<int, int>(bLoop->getLoopID(), currentStatementNum));
 	          }
 	          if(!continueLoop){
@@ -2288,7 +2292,11 @@ void runGame(){
     }catch(std::exception& e){
       continueLoop = false;
       std::cout << e.what() << std::endl;
-			currentStatementNum++;
+			if(loopIDs.size() > 0){
+				currentStatementNum = dynamic_cast<BeginLoop*>(statements[loopIDs[gameLoopID]])->getExitLine();
+			}else{
+				currentStatementNum++;
+			}
     }
 	}
 }

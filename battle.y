@@ -130,7 +130,9 @@ line : IDENTIFIER ASSIGNOP expr
           statements.push_back(randBoat);}
         break;
 			case SeekAction:
-					{Seek* seek = new Seek($1, exprToInt(args.top()[0]), strdup(exprToString(args.top()[1]).c_str()));
+					//									varName		seekDistanceHorizontal	seekDistanceVertical				varAttackedName
+					//  										vv					vv													vvv										vvv
+					{Seek* seek = new Seek($1, exprToInt(args.top()[0]), exprToInt(args.top()[1]), strdup(exprToString(args.top()[2]).c_str()));
 					statements.push_back(seek);}
 				break;
 			case TrySinkAction:
@@ -235,16 +237,12 @@ action : ADDBOATACTION
 	{
 		CurrentAction = SeekAction;
 
-		Expression* seeknumber = new Expression();
-		seeknumber->type = Int;
-		seeknumber->value = (void*) new int(getIntegerValue(std::string($1)));
+		std::vector<Expression*> myArgs = typifyArgs(getArguments(std::string($1)));
 
 		Expression* varAttackedName = new Expression();
 		varAttackedName->type = String;
 		varAttackedName->value = (void*) new std::string($3);
 
-		std::vector<Expression*> myArgs;
-		myArgs.push_back(seeknumber);
 		myArgs.push_back(varAttackedName);
 
 		args.push(myArgs);
@@ -457,6 +455,7 @@ void runGame(){
 	std::map<int, int> loopIDs;
   bool continueLoop = true;
 	bool skipElse = false;
+	int gameLoopID = statements.size() - 1;
 
 	int currentStatementNum = 0;
 	while(currentStatementNum < statements.size()){
@@ -503,6 +502,11 @@ void runGame(){
 	        {
 	          BeginLoop* bLoop = dynamic_cast<BeginLoop*>(statements[currentStatementNum]);
 	          if(loopIDs.count(bLoop->getLoopID()) == 0){
+
+							//set the first loop to be the "game loop"
+							if(loopIDs.size() == 0){
+									gameLoopID = bLoop->getLoopID();
+							}
 	            loopIDs.insert(std::pair<int, int>(bLoop->getLoopID(), currentStatementNum));
 	          }
 	          if(!continueLoop){
@@ -603,7 +607,11 @@ void runGame(){
     }catch(std::exception& e){
       continueLoop = false;
       std::cout << e.what() << std::endl;
-			currentStatementNum++;
+			if(loopIDs.size() > 0){
+				currentStatementNum = dynamic_cast<BeginLoop*>(statements[loopIDs[gameLoopID]])->getExitLine();
+			}else{
+				currentStatementNum++;
+			}
     }
 	}
 }

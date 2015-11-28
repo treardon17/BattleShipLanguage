@@ -16,6 +16,6 @@ loop:
     Putin->show()
   endif.
   else:
-    Putin->seek(3)->Tyler
+    Putin->seek(3,1)->Tyler
   endelse.
 endloop.

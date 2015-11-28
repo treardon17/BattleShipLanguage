@@ -680,14 +680,16 @@ class Seek : public Statement{
 private:
 char* varName;
 char* varAttackedName;
-int seekDistance;
+int seekDistanceHorizontal;
+int seekDistanceVertical;
 
 public:
-  Seek(char* varName, int seekDistance, char* varAttackedName){
+  Seek(char* varName, int seekDistanceHorizontal, int seekDistanceVertical, char* varAttackedName){
     this->action = SeekAction;
     this->varName = varName;
     this->varAttackedName = varAttackedName;
-    this->seekDistance = seekDistance;
+    this->seekDistanceHorizontal = seekDistanceHorizontal;
+    this->seekDistanceVertical = seekDistanceVertical;
   }
 
   ~Seek(){
@@ -728,7 +730,7 @@ public:
       Computer* myComputer = static_cast<Computer*>(var->value);
       Player* myOpponent = static_cast<Player*>(var->value);
 
-      gridPoint = myComputer->seek(seekDistance);
+      gridPoint = myComputer->seek(seekDistanceHorizontal, seekDistanceVertical);
       Attack attack(strdup(varName), gridPoint, strdup(varAttackedName));
       attack.execute();
     }else if(var->type != ComputerType){

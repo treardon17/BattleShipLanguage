@@ -41,7 +41,7 @@ addBoat\([ ]*\"[a-zA-Z]+\"[ ]*,[ ]*\'[a-zA-Z]\'[ ]*,[ ]*[0-9]+[ ]*,[ ]*\'[vh]{1}
 randomlyAddBoats\([ ]*[0-9]+[ ]*\) { yylval.sval = (char*) strdup(yytext+17); yylval.sval[strlen(yylval.sval)-1] = '\0'; return RANDOMADDBOATACTION; }
 attack\(\"[ ]*[a-zA-Z]?[0-9]*[ ]*\"\) { yylval.sval = (char*) strdup(yytext+7); yylval.sval[strlen(yylval.sval)-1] = '\0'; return ATTACKBOATACTION;}
 show\([ ]*\) {yylval.sval = (char*) strdup(yytext); return SHOWVARACTION;}
-seek\([0-9]+\) {yylval.sval = (char*) strdup(yytext+5); yylval.sval[strlen(yylval.sval)-1] = '\0'; return SEEKACTION;}
+seek\([0-9]+,[0-9]+\) {yylval.sval = (char*) strdup(yytext+5); yylval.sval[strlen(yylval.sval)-1] = '\0'; return SEEKACTION;}
 trySink\([ ]*\"(up|down|left|right)\"[ ]*,[ ]*[0-9]+[ ]*\) { yylval.sval = (char*) strdup(yytext+8); yylval.sval[strlen(yylval.sval)-1] = '\0'; return TRYSINKACTION;}
 
 findsBoat\(\) {yylval.sval = (char*) strdup(yytext); return FINDSBOAT;}

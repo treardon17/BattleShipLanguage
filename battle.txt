@@ -15,14 +15,14 @@ loop:
     endtry.
   endif.
   else:
-    Vlad->seek(5)->Putin
+    Vlad->seek(2,1)->Putin
   endelse.
 
   if Putin->findsBoat():
     Putin->trySink("up",1)->Vlad
   endif.
   else:
-    Putin->seek(3)->Vlad
+    Putin->seek(2,1)->Vlad
   endelse.
 endloop.
 

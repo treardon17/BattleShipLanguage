@@ -434,7 +434,6 @@ private:
   Direction currentDirection;       //records the current seek direction
   int randBoatRow;                  //row the computer generates
   char randBoatCol;                 //column the computer generates
-  int seekDistance;                 //records the current seek distance (space between attacks for computer)
 
 public:
 	Computer(std::string playerName) : Player(playerName){
@@ -468,13 +467,20 @@ public:
   std::stack<Coordinate> getTrackBack(){return trackBack;}
 
   //returns the gridPoint for the next valid place in the seek pattern
-  std::string seek(int seekDistance){
+  std::string seek(int seekDistanceHorizontal, int seekDistanceVertical){
 
     //make sure the seek distance isn't too big or too small
-    if(seekDistance > playerGrid.GridDimensions / 2){
-      seekDistance = playerGrid.GridDimensions / 2;
-      printf("Too large of seek distance. Setting seek distance to %d.\n", seekDistance);
-    }else if(seekDistance <= 0){ seekDistance = 1; }
+    //horizontal case
+    if(seekDistanceHorizontal > playerGrid.GridDimensions / 2){
+      seekDistanceHorizontal = playerGrid.GridDimensions / 2;
+      printf("Too large of horizontal seek distance. Setting seek distance to %d.\n", seekDistanceHorizontal);
+    }else if(seekDistanceHorizontal <= 0){ seekDistanceHorizontal = 1; }
+    //vertical case
+    if(seekDistanceVertical > playerGrid.GridDimensions / 2){
+      seekDistanceVertical = playerGrid.GridDimensions / 2;
+      printf("Too large of horizontal seek distance. Setting seek distance to %d.\n", seekDistanceVertical);
+    }else if(seekDistanceVertical <= 0){ seekDistanceVertical = 1; }
+
     //make the column and row a string
     std::ostringstream colAndRow;
     colAndRow << randBoatCol << randBoatRow;
@@ -493,9 +499,9 @@ public:
     //insert the gridPoint and its success status into the previousTries map
     mostRecentTry = colAndRow.str();
     //if the seek distance exceeds the bounds of the grid, set the column to 'a'
-    if(((int)randBoatCol - 96) + seekDistance > playerGrid.GridDimensions){ randBoatCol = 'a'; randBoatRow += seekDistance; }
+    if(((int)randBoatCol - 96) + seekDistanceHorizontal > playerGrid.GridDimensions){ randBoatCol = 'a'; randBoatRow += seekDistanceVertical; }
     //otherwise, set the seeker to the next point
-    else{ randBoatCol = randBoatCol + seekDistance; }
+    else{ randBoatCol = randBoatCol + seekDistanceHorizontal; }
     //set the row to 1 if the row exceeds the bounds of the grid
     if(randBoatRow > playerGrid.GridDimensions){ randBoatRow = 1; }
 
@@ -517,46 +523,46 @@ public:
       //depending on the direction specified
       switch (currentDirection) {
         case SeekDirection:
-          return seek(1);
+          return seek(1,1);
           break;
         case Left:
           if(canMoveLeft(afterHitSeekDistance) && shouldMoveLeft(afterHitSeekDistance)){
             mostRecentTry = moveLeft(afterHitSeekDistance);
           } else {
-            seek(1);
+            seek(1,1);
           }
           break;
         case Right:
           if(canMoveRight(afterHitSeekDistance) && shouldMoveRight(afterHitSeekDistance)){
             mostRecentTry = moveRight(afterHitSeekDistance);
           }else {
-            seek(1);
+            seek(1,1);
           }
           break;
         case Up:
           if(canMoveUp(afterHitSeekDistance) && shouldMoveUp(afterHitSeekDistance)){
             mostRecentTry = moveUp(afterHitSeekDistance);
           } else {
-            seek(1);
+            seek(1,1);
           }
           break;
         case Down:
           if(canMoveDown(afterHitSeekDistance) && shouldMoveDown(afterHitSeekDistance)){
             mostRecentTry = moveDown(afterHitSeekDistance);
           } else {
-            seek(1);
+            seek(1,1);
           }
           break;
         default:
           logError("Could not perform seek and destroy action. Bad direction.");
-          return seek(1);
+          return seek(1,1);
           break;
       }
       return mostRecentTry;
     }
 
     //if there wasn't actually a hit, return a seek
-    return seek(1);
+    return seek(1,1);
   }
 
 //UP-------------------------------------------
