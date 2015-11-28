@@ -15,10 +15,10 @@ loop:
     endtry.
   endif.
   else:
-    Vlad->seek(1)->Putin
+    Vlad->seek(2,2)->Putin
   endelse.
 
-  Putin->seek(2)->Vlad
+  Putin->seek(4,4)->Vlad
 
 endloop.
 

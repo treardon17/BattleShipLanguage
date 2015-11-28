@@ -488,7 +488,7 @@ public:
     while(opponentGrid.grid[colAndRow.str()] != -1){
       colAndRow.str("");
       colAndRow.clear();
-      //if adding 1 exceeds the bounds of the grid, set the column to 'a'
+      //if adding 1 exceeds the bounds of the grid, set the column to 'a' + the seekOffset
       if(((int)randBoatCol - 96) + 1 > playerGrid.GridDimensions){ randBoatCol = 'a'; randBoatRow++; }
       //otherwise, set the seeker to the next point
       else{ randBoatCol++; }
