@@ -84,20 +84,22 @@
      ENDELSE = 273,
      WHENSTATEMENT = 274,
      TRYSTATEMENT = 275,
-     COMPUTERLITERAL = 276,
-     PLAYERLITERAL = 277,
-     GRIDLITERAL = 278,
-     STRINGLITERAL = 279,
-     CHARLITERAL = 280,
-     INTLITERAL = 281,
-     IDENTIFIER = 282,
-     INTTYPE = 283,
-     CHARTYPE = 284,
-     STRINGTYPE = 285,
-     GRIDTYPE = 286,
-     PLAYERTYPE = 287,
-     COMPUTERTYPE = 288,
-     ASSIGNOP = 289
+     BEGINTRYSTATEMENT = 276,
+     ENDTRYSTATEMENT = 277,
+     COMPUTERLITERAL = 278,
+     PLAYERLITERAL = 279,
+     GRIDLITERAL = 280,
+     STRINGLITERAL = 281,
+     CHARLITERAL = 282,
+     INTLITERAL = 283,
+     IDENTIFIER = 284,
+     INTTYPE = 285,
+     CHARTYPE = 286,
+     STRINGTYPE = 287,
+     GRIDTYPE = 288,
+     PLAYERTYPE = 289,
+     COMPUTERTYPE = 290,
+     ASSIGNOP = 291
    };
 #endif
 /* Tokens.  */
@@ -119,20 +121,22 @@
 #define ENDELSE 273
 #define WHENSTATEMENT 274
 #define TRYSTATEMENT 275
-#define COMPUTERLITERAL 276
-#define PLAYERLITERAL 277
-#define GRIDLITERAL 278
-#define STRINGLITERAL 279
-#define CHARLITERAL 280
-#define INTLITERAL 281
-#define IDENTIFIER 282
-#define INTTYPE 283
-#define CHARTYPE 284
-#define STRINGTYPE 285
-#define GRIDTYPE 286
-#define PLAYERTYPE 287
-#define COMPUTERTYPE 288
-#define ASSIGNOP 289
+#define BEGINTRYSTATEMENT 276
+#define ENDTRYSTATEMENT 277
+#define COMPUTERLITERAL 278
+#define PLAYERLITERAL 279
+#define GRIDLITERAL 280
+#define STRINGLITERAL 281
+#define CHARLITERAL 282
+#define INTLITERAL 283
+#define IDENTIFIER 284
+#define INTTYPE 285
+#define CHARTYPE 286
+#define STRINGTYPE 287
+#define GRIDTYPE 288
+#define PLAYERTYPE 289
+#define COMPUTERTYPE 290
+#define ASSIGNOP 291
 
 
 
@@ -140,6 +144,7 @@
 /* Copy the first part of user declarations.  */
 #line 1 "battle.y"
 
+	#include <algorithm>
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -195,7 +200,7 @@ void yyerror(const char *s);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 37 "battle.y"
+#line 38 "battle.y"
 { /* SEMANTIC RECORD */
 		char* sval;
 		char* id;
@@ -206,7 +211,7 @@ typedef union YYSTYPE
 		char* tryval;
 	}
 /* Line 193 of yacc.c.  */
-#line 210 "battle.tab.c"
+#line 215 "battle.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -219,7 +224,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 223 "battle.tab.c"
+#line 228 "battle.tab.c"
 
 #ifdef short
 # undef short
@@ -434,20 +439,20 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   45
+#define YYLAST   66
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  39
+#define YYNTOKENS  41
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  32
+#define YYNRULES  34
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  52
+#define YYNSTATES  56
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   289
+#define YYMAXUTOK   291
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -459,7 +464,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,    37,    35,     2,    36,     2,    38,     2,     2,
+       2,     2,    39,    37,     2,    38,     2,    40,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -483,7 +488,8 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32,    33,    34
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
+      35,    36
 };
 
 #if YYDEBUG
@@ -492,32 +498,33 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyprhs[] =
 {
        0,     0,     3,     4,     7,    11,    14,    18,    21,    23,
-      27,    29,    32,    34,    39,    41,    45,    47,    51,    55,
-      57,    59,    63,    65,    67,    69,    71,    73,    75,    77,
-      79,    81,    83
+      27,    29,    32,    34,    37,    39,    45,    47,    51,    53,
+      57,    61,    63,    65,    69,    71,    73,    75,    77,    79,
+      81,    83,    85,    87,    89
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      40,     0,    -1,    -1,    40,    41,    -1,    27,    34,    44,
-      -1,    45,    27,    -1,    27,     7,    43,    -1,     5,     4,
-      -1,     6,    -1,    14,    42,     4,    -1,    15,    -1,    17,
-       4,    -1,    18,    -1,    26,     3,    20,     4,    -1,    19,
-      -1,    27,     7,    16,    -1,    10,    -1,    11,     7,    27,
-      -1,    13,     7,    27,    -1,     9,    -1,    12,    -1,     8,
-       7,    27,    -1,    26,    -1,    25,    -1,    24,    -1,    22,
-      -1,    21,    -1,    27,    -1,    28,    -1,    29,    -1,    30,
-      -1,    32,    -1,    33,    -1
+      42,     0,    -1,    -1,    42,    43,    -1,    29,    36,    46,
+      -1,    47,    29,    -1,    29,     7,    45,    -1,     5,     4,
+      -1,     6,    -1,    14,    44,     4,    -1,    15,    -1,    17,
+       4,    -1,    18,    -1,    21,     4,    -1,    22,    -1,    28,
+       3,    20,     4,    43,    -1,    19,    -1,    29,     7,    16,
+      -1,    10,    -1,    11,     7,    29,    -1,    13,     7,    29,
+      -1,     9,    -1,    12,    -1,     8,     7,    29,    -1,    28,
+      -1,    27,    -1,    26,    -1,    24,    -1,    23,    -1,    29,
+      -1,    30,    -1,    31,    -1,    32,    -1,    34,    -1,    35,
+      -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    88,    88,    89,    92,    99,   105,   149,   154,   159,
-     165,   170,   175,   180,   184,   190,   200,   205,   217,   235,
-     239,   244,   255,   263,   270,   277,   285,   293,   307,   308,
-     309,   310,   311
+       0,    91,    91,    92,    95,   102,   108,   152,   157,   162,
+     168,   173,   178,   183,   188,   193,   199,   205,   215,   220,
+     232,   250,   254,   259,   270,   278,   285,   292,   300,   308,
+     322,   323,   324,   325,   326
 };
 #endif
 
@@ -531,11 +538,12 @@ static const char *const yytname[] =
   "TRYSINKACTION", "SHOWVARACTION", "ADDBOATACTION", "ATTACKBOATACTION",
   "RANDOMADDBOATACTION", "SEEKACTION", "BEGINIFCOND", "ENDIFCOND",
   "FINDSBOAT", "BEGINELSE", "ENDELSE", "WHENSTATEMENT", "TRYSTATEMENT",
-  "COMPUTERLITERAL", "PLAYERLITERAL", "GRIDLITERAL", "STRINGLITERAL",
-  "CHARLITERAL", "INTLITERAL", "IDENTIFIER", "INTTYPE", "CHARTYPE",
-  "STRINGTYPE", "GRIDTYPE", "PLAYERTYPE", "COMPUTERTYPE", "ASSIGNOP",
-  "'+'", "'-'", "'*'", "'/'", "$accept", "input", "line", "boolcond",
-  "action", "expr", "typedecl", 0
+  "BEGINTRYSTATEMENT", "ENDTRYSTATEMENT", "COMPUTERLITERAL",
+  "PLAYERLITERAL", "GRIDLITERAL", "STRINGLITERAL", "CHARLITERAL",
+  "INTLITERAL", "IDENTIFIER", "INTTYPE", "CHARTYPE", "STRINGTYPE",
+  "GRIDTYPE", "PLAYERTYPE", "COMPUTERTYPE", "ASSIGNOP", "'+'", "'-'",
+  "'*'", "'/'", "$accept", "input", "line", "boolcond", "action", "expr",
+  "typedecl", 0
 };
 #endif
 
@@ -547,26 +555,27 @@ static const yytype_uint16 yytoknum[] =
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,    43,    45,    42,    47
+     285,   286,   287,   288,   289,   290,   291,    43,    45,    42,
+      47
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    39,    40,    40,    41,    41,    41,    41,    41,    41,
-      41,    41,    41,    41,    41,    42,    43,    43,    43,    43,
-      43,    43,    44,    44,    44,    44,    44,    44,    45,    45,
-      45,    45,    45
+       0,    41,    42,    42,    43,    43,    43,    43,    43,    43,
+      43,    43,    43,    43,    43,    43,    43,    44,    45,    45,
+      45,    45,    45,    45,    46,    46,    46,    46,    46,    46,
+      47,    47,    47,    47,    47
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     0,     2,     3,     2,     3,     2,     1,     3,
-       1,     2,     1,     4,     1,     3,     1,     3,     3,     1,
-       1,     3,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1
+       1,     2,     1,     2,     1,     5,     1,     3,     1,     3,
+       3,     1,     1,     3,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -574,37 +583,37 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     1,     0,     8,     0,    10,     0,    12,    14,
-       0,     0,    28,    29,    30,    31,    32,     3,     0,     7,
-       0,     0,    11,     0,     0,     0,     5,     0,     9,     0,
-       0,    19,    16,     0,    20,     0,     6,    26,    25,    24,
-      23,    22,    27,     4,    15,    13,     0,     0,     0,    21,
-      17,    18
+       2,     0,     1,     0,     8,     0,    10,     0,    12,    16,
+       0,    14,     0,     0,    30,    31,    32,    33,    34,     3,
+       0,     7,     0,     0,    11,    13,     0,     0,     0,     5,
+       0,     9,     0,     0,    21,    18,     0,    22,     0,     6,
+      28,    27,    26,    25,    24,    29,     4,    17,     0,     0,
+       0,     0,    15,    23,    19,    20
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,    17,    21,    36,    43,    18
+      -1,     1,    19,    23,    39,    46,    20
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -27
+#define YYPACT_NINF -29
 static const yytype_int8 yypact[] =
 {
-     -27,     0,   -27,    -2,   -27,   -26,   -27,    -1,   -27,   -27,
-       6,    -3,   -27,   -27,   -27,   -27,   -27,   -27,   -11,   -27,
-      27,    31,   -27,    16,    12,   -14,   -27,    21,   -27,    34,
-      32,   -27,   -27,    33,   -27,    35,   -27,   -27,   -27,   -27,
-     -27,   -27,   -27,   -27,   -27,   -27,    14,    17,    18,   -27,
-     -27,   -27
+     -29,     0,   -29,    -2,   -29,   -28,   -29,    -1,   -29,   -29,
+       5,   -29,    13,    -3,   -29,   -29,   -29,   -29,   -29,   -29,
+      -9,   -29,    16,    20,   -29,   -29,     6,    30,   -16,   -29,
+       9,   -29,    23,    37,   -29,   -29,    40,   -29,    44,   -29,
+     -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,    31,    25,
+      26,    27,   -29,   -29,   -29,   -29
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -27,   -27,   -27,   -27,   -27,   -27,   -27
+     -29,   -29,    10,   -29,   -29,   -29,   -29
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -614,32 +623,36 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       2,    20,    19,    22,    24,     3,     4,    37,    38,    23,
-      39,    40,    41,    42,     5,     6,    26,     7,     8,     9,
-      30,    31,    32,    33,    34,    35,    10,    11,    12,    13,
-      14,    25,    15,    16,    27,    28,    29,    44,    45,    46,
-      47,    49,    48,     0,    50,    51
+       2,    22,    21,    24,    27,     3,     4,    40,    41,    25,
+      42,    43,    44,    45,     5,     6,    26,     7,     8,     9,
+      29,    10,    11,    30,    31,    47,    32,    48,    12,    13,
+      14,    15,    16,    28,    17,    18,     3,     4,    33,    34,
+      35,    36,    37,    38,    49,     5,     6,    50,     7,     8,
+       9,    51,    10,    11,    53,    54,    55,     0,    52,    12,
+      13,    14,    15,    16,     0,    17,    18
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,    27,     4,     4,     7,     5,     6,    21,    22,     3,
-      24,    25,    26,    27,    14,    15,    27,    17,    18,    19,
-       8,     9,    10,    11,    12,    13,    26,    27,    28,    29,
-      30,    34,    32,    33,     7,     4,    20,    16,     4,     7,
-       7,    27,     7,    -1,    27,    27
+       0,    29,     4,     4,     7,     5,     6,    23,    24,     4,
+      26,    27,    28,    29,    14,    15,     3,    17,    18,    19,
+      29,    21,    22,     7,     4,    16,    20,     4,    28,    29,
+      30,    31,    32,    36,    34,    35,     5,     6,     8,     9,
+      10,    11,    12,    13,     7,    14,    15,     7,    17,    18,
+      19,     7,    21,    22,    29,    29,    29,    -1,    48,    28,
+      29,    30,    31,    32,    -1,    34,    35
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    40,     0,     5,     6,    14,    15,    17,    18,    19,
-      26,    27,    28,    29,    30,    32,    33,    41,    45,     4,
-      27,    42,     4,     3,     7,    34,    27,     7,     4,    20,
-       8,     9,    10,    11,    12,    13,    43,    21,    22,    24,
-      25,    26,    27,    44,    16,     4,     7,     7,     7,    27,
-      27,    27
+       0,    42,     0,     5,     6,    14,    15,    17,    18,    19,
+      21,    22,    28,    29,    30,    31,    32,    34,    35,    43,
+      47,     4,    29,    44,     4,     4,     3,     7,    36,    29,
+       7,     4,    20,     8,     9,    10,    11,    12,    13,    45,
+      23,    24,    26,    27,    28,    29,    46,    16,     4,     7,
+       7,     7,    43,    29,    29,    29
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1454,12 +1467,12 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 89 "battle.y"
+#line 92 "battle.y"
     { lineNumberGlobal++; ;}
     break;
 
   case 4:
-#line 93 "battle.y"
+#line 96 "battle.y"
     {
         CurrentAction = AssignAction;
         Expression* newExpr = exprs.top();
@@ -1469,7 +1482,7 @@ yyreduce:
     break;
 
   case 5:
-#line 100 "battle.y"
+#line 103 "battle.y"
     {
         CurrentAction = DeclareAction;
 				VarDeclare* myVar = new VarDeclare((yyvsp[(2) - (2)].id), tCurr);
@@ -1478,7 +1491,7 @@ yyreduce:
     break;
 
   case 6:
-#line 106 "battle.y"
+#line 109 "battle.y"
     {
     switch(CurrentAction){
       case NoAction:
@@ -1507,8 +1520,8 @@ yyreduce:
 					statements.push_back(seek);}
 				break;
 			case TrySinkAction:
-				//												 		varName, 			varAttackedName, 																		direction, 											afterHitSeekDistance
-				//															vv							vv																									vv																vv
+				//												 		varName, 			varAttackedName, 																		direction, 							afterHitSeekDistance
+				//															vv							vv																									vv												vv
 				{TrySink* trySink = new TrySink((yyvsp[(1) - (3)].id), strdup(exprToString(args.top()[2]).c_str()), exprToString(args.top()[0]), exprToInt(args.top()[1]));
 				statements.push_back(trySink);}
 				break;
@@ -1525,7 +1538,7 @@ yyreduce:
     break;
 
   case 7:
-#line 150 "battle.y"
+#line 153 "battle.y"
     {
         BeginLoop* bLoop = new BeginLoop(lineNumberGlobal, true);
         statements.push_back(bLoop);
@@ -1533,7 +1546,7 @@ yyreduce:
     break;
 
   case 8:
-#line 155 "battle.y"
+#line 158 "battle.y"
     {
         EndLoop* eLoop = new EndLoop();
         statements.push_back(eLoop);
@@ -1541,7 +1554,7 @@ yyreduce:
     break;
 
   case 9:
-#line 160 "battle.y"
+#line 163 "battle.y"
     {
 				BeginIfCond* bIfCond = new BeginIfCond(strdup(exprToString(exprs.top()).c_str()), CurrentBool);
 				statements.push_back(bIfCond);
@@ -1550,7 +1563,7 @@ yyreduce:
     break;
 
   case 10:
-#line 166 "battle.y"
+#line 169 "battle.y"
     {
 				EndIfCond* eIfCond = new EndIfCond();
 				statements.push_back(eIfCond);
@@ -1558,7 +1571,7 @@ yyreduce:
     break;
 
   case 11:
-#line 171 "battle.y"
+#line 174 "battle.y"
     {
 			BeginElse* bElse = new BeginElse();
 			statements.push_back(bElse);
@@ -1566,7 +1579,7 @@ yyreduce:
     break;
 
   case 12:
-#line 176 "battle.y"
+#line 179 "battle.y"
     {
 			EndElse* eElse = new EndElse();
 			statements.push_back(eElse);
@@ -1574,21 +1587,39 @@ yyreduce:
     break;
 
   case 13:
-#line 181 "battle.y"
+#line 184 "battle.y"
     {
-
-		;}
+				BeginTryStatement* bTry = new BeginTryStatement();
+				statements.push_back(bTry);
+			;}
     break;
 
   case 14:
-#line 185 "battle.y"
+#line 189 "battle.y"
     {
-
+				EndTryStatement* eTry = new EndTryStatement();
+				statements.push_back(eTry);
 		;}
     break;
 
   case 15:
-#line 191 "battle.y"
+#line 194 "battle.y"
+    {
+			TryStatement* myTry = new TryStatement(getIntegerValue(std::string((yyvsp[(1) - (5)].sval))), statements.back());
+			statements.pop_back();
+			statements.push_back(myTry);
+		;}
+    break;
+
+  case 16:
+#line 200 "battle.y"
+    {
+
+		;}
+    break;
+
+  case 17:
+#line 206 "battle.y"
     {
 		Expression* varName = new Expression();
 		varName->type = String;
@@ -1599,16 +1630,16 @@ yyreduce:
 	;}
     break;
 
-  case 16:
-#line 201 "battle.y"
+  case 18:
+#line 216 "battle.y"
     {
     CurrentAction = AddBoatAction;
     args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (1)].sval)))));
 	;}
     break;
 
-  case 17:
-#line 206 "battle.y"
+  case 19:
+#line 221 "battle.y"
     {
     CurrentAction = AttackBoatAction;
 
@@ -1622,8 +1653,8 @@ yyreduce:
   ;}
     break;
 
-  case 18:
-#line 218 "battle.y"
+  case 20:
+#line 233 "battle.y"
     {
 		CurrentAction = SeekAction;
 
@@ -1643,23 +1674,23 @@ yyreduce:
 	;}
     break;
 
-  case 19:
-#line 236 "battle.y"
+  case 21:
+#line 251 "battle.y"
     {
 	  CurrentAction = ShowVarAction;
 	;}
     break;
 
-  case 20:
-#line 240 "battle.y"
+  case 22:
+#line 255 "battle.y"
     {
 	  CurrentAction = RandomAddBoatAction;
 	  args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (1)].sval)))));
 	;}
     break;
 
-  case 21:
-#line 245 "battle.y"
+  case 23:
+#line 260 "battle.y"
     {
 		CurrentAction = TrySinkAction;
 		args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (3)].sval))))); //get direction and afterHitSeekDistance
@@ -1671,8 +1702,8 @@ yyreduce:
 	;}
     break;
 
-  case 22:
-#line 256 "battle.y"
+  case 24:
+#line 271 "battle.y"
     {
 			int r = getIntegerValue(std::string((yyvsp[(1) - (1)].sval)));
       Variable* l = new Variable();
@@ -1682,8 +1713,8 @@ yyreduce:
 		;}
     break;
 
-  case 23:
-#line 264 "battle.y"
+  case 25:
+#line 279 "battle.y"
     {
 			Variable* l = new Variable();
 			l->type = Char;
@@ -1692,8 +1723,8 @@ yyreduce:
 		;}
     break;
 
-  case 24:
-#line 271 "battle.y"
+  case 26:
+#line 286 "battle.y"
     {
 			Variable* l = new Variable();
 			l->type = String;
@@ -1702,8 +1733,8 @@ yyreduce:
 		;}
     break;
 
-  case 25:
-#line 278 "battle.y"
+  case 27:
+#line 293 "battle.y"
     {
     Variable *l = new Variable();
 		Player* p = new Player((yyvsp[(1) - (1)].sval));
@@ -1713,8 +1744,8 @@ yyreduce:
 	;}
     break;
 
-  case 26:
-#line 286 "battle.y"
+  case 28:
+#line 301 "battle.y"
     {
     Variable *l = new Variable();
     Computer* c = new Computer((yyvsp[(1) - (1)].sval));
@@ -1724,8 +1755,8 @@ yyreduce:
 	;}
     break;
 
-  case 27:
-#line 294 "battle.y"
+  case 29:
+#line 309 "battle.y"
     {
 			Variable* v = get_symbol((yyvsp[(1) - (1)].id));
 			if (v == NULL) {
@@ -1738,34 +1769,34 @@ yyreduce:
 		;}
     break;
 
-  case 28:
-#line 307 "battle.y"
+  case 30:
+#line 322 "battle.y"
     { tCurr = Int; ;}
     break;
 
-  case 29:
-#line 308 "battle.y"
+  case 31:
+#line 323 "battle.y"
     { tCurr = Char; ;}
     break;
 
-  case 30:
-#line 309 "battle.y"
+  case 32:
+#line 324 "battle.y"
     { tCurr = String; ;}
     break;
 
-  case 31:
-#line 310 "battle.y"
+  case 33:
+#line 325 "battle.y"
     { tCurr = PlayerType; ;}
     break;
 
-  case 32:
-#line 311 "battle.y"
+  case 34:
+#line 326 "battle.y"
     { tCurr = ComputerType; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1769 "battle.tab.c"
+#line 1800 "battle.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1979,7 +2010,7 @@ yyreturn:
 }
 
 
-#line 314 "battle.y"
+#line 329 "battle.y"
 
 
 void setLoopIDs(){
@@ -2061,6 +2092,32 @@ void setElseIDs(){
 		if(statements[i]->getAction() == EndElseAction){
 			dynamic_cast<BeginElse*>(elses[elseID])->setExitLine(i);
 			dynamic_cast<EndElse*>(statements[i])->setElseID(elseID--);
+		}
+	}
+}
+
+void setTryStatementIDs(){
+	int tryStatementID = 0;
+	for(int i = 0; i < statements.size(); i++){
+
+		//look for the beginning of the try statement
+		if(statements[i]->getAction() == BeginTryStatementAction){
+
+			//set the try statement ID
+			BeginTryStatement* bTry = dynamic_cast<BeginTryStatement*>(statements[i]);
+			bTry->setTryStatementID(++tryStatementID);
+
+			//look for the try statement commands between the beginning of the try statement and the end of the try statement
+			for(int j = i; j < statements.size(); j++){
+				if(statements[j]->getAction() == TryStatementAction){
+					TryStatement* myTry = dynamic_cast<TryStatement*>(statements[j]);
+					myTry->setTryStatementID(tryStatementID);
+				}else if(statements[j]->getAction() == EndTryStatementAction){
+					bTry->setTryStatementExitLine(i);
+					dynamic_cast<EndTryStatement*>(statements[j])->setTryStatementID(tryStatementID--);
+					j = statements.size() - 1; //exit the loop when the end of the try statement is found
+				}
+			}
 		}
 	}
 }
@@ -2181,6 +2238,23 @@ void runGame(){
 					dynamic_cast<EndElse*>(statements[currentStatementNum])->execute();
 					currentStatementNum++;
 					break;
+				case BeginTryStatementAction:
+					currentStatementNum++;
+					break;
+				case TryStatementAction:
+					{
+						TryStatement* tStatement = dynamic_cast<TryStatement*>(statements[currentStatementNum]);
+
+						//check if the statement should be executed (if it hasn't been tried yet)
+						if(tStatement->getTried()){
+							tStatement->execute();
+						}
+					}
+					currentStatementNum++;
+					break;
+				case EndTryStatementAction:
+					currentStatementNum++;
+					break;
 				case TrySinkAction:
 					printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\nTry sink action called...\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); ///------------------------------------------------
 					dynamic_cast<TrySink*>(statements[currentStatementNum])->execute();
@@ -2213,6 +2287,7 @@ int main (int argc, char *argv[]) {
 	setLoopIDs();
 	setIfCondIDs();
 	setElseIDs();
+	setTryStatementIDs();
 
   printf("\n-----------------START GAME-----------------\n");
   runGame();

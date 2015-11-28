@@ -1,4 +1,5 @@
 %{
+	#include <algorithm>
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -66,6 +67,8 @@ void yyerror(const char *s);
 
 %token<whenval> WHENSTATEMENT
 %token<tryval> TRYSTATEMENT
+%token<tryval> BEGINTRYSTATEMENT
+%token<tryval> ENDTRYSTATEMENT
 
 %token<sval> COMPUTERLITERAL
 %token<sval> PLAYERLITERAL
@@ -131,8 +134,8 @@ line : IDENTIFIER ASSIGNOP expr
 					statements.push_back(seek);}
 				break;
 			case TrySinkAction:
-				//												 		varName, 			varAttackedName, 																		direction, 											afterHitSeekDistance
-				//															vv							vv																									vv																vv
+				//												 		varName, 			varAttackedName, 																		direction, 							afterHitSeekDistance
+				//															vv							vv																									vv												vv
 				{TrySink* trySink = new TrySink($1, strdup(exprToString(args.top()[2]).c_str()), exprToString(args.top()[0]), exprToInt(args.top()[1]));
 				statements.push_back(trySink);}
 				break;
@@ -177,9 +180,21 @@ line : IDENTIFIER ASSIGNOP expr
 			EndElse* eElse = new EndElse();
 			statements.push_back(eElse);
 		}
-	| INTLITERAL STATEMENTNUMSYMBOL TRYSTATEMENT STATEMENTNUMSYMBOLSTART
+	| BEGINTRYSTATEMENT STATEMENTNUMSYMBOLSTART
+			{
+				BeginTryStatement* bTry = new BeginTryStatement();
+				statements.push_back(bTry);
+			}
+	| ENDTRYSTATEMENT
 		{
-
+				EndTryStatement* eTry = new EndTryStatement();
+				statements.push_back(eTry);
+		}
+	| INTLITERAL STATEMENTNUMSYMBOL TRYSTATEMENT STATEMENTNUMSYMBOLSTART line
+		{
+			TryStatement* myTry = new TryStatement(getIntegerValue(std::string($1)), statements.back());
+			statements.pop_back();
+			statements.push_back(myTry);
 		}
 	| WHENSTATEMENT
 		{
@@ -396,6 +411,32 @@ void setElseIDs(){
 	}
 }
 
+void setTryStatementIDs(){
+	int tryStatementID = 0;
+	for(int i = 0; i < statements.size(); i++){
+
+		//look for the beginning of the try statement
+		if(statements[i]->getAction() == BeginTryStatementAction){
+
+			//set the try statement ID
+			BeginTryStatement* bTry = dynamic_cast<BeginTryStatement*>(statements[i]);
+			bTry->setTryStatementID(++tryStatementID);
+
+			//look for the try statement commands between the beginning of the try statement and the end of the try statement
+			for(int j = i; j < statements.size(); j++){
+				if(statements[j]->getAction() == TryStatementAction){
+					TryStatement* myTry = dynamic_cast<TryStatement*>(statements[j]);
+					myTry->setTryStatementID(tryStatementID);
+				}else if(statements[j]->getAction() == EndTryStatementAction){
+					bTry->setTryStatementExitLine(i);
+					dynamic_cast<EndTryStatement*>(statements[j])->setTryStatementID(tryStatementID--);
+					j = statements.size() - 1; //exit the loop when the end of the try statement is found
+				}
+			}
+		}
+	}
+}
+
 void runGame(){
 
 	bool debug = true; //turns on debug notifications
@@ -512,6 +553,23 @@ void runGame(){
 					dynamic_cast<EndElse*>(statements[currentStatementNum])->execute();
 					currentStatementNum++;
 					break;
+				case BeginTryStatementAction:
+					currentStatementNum++;
+					break;
+				case TryStatementAction:
+					{
+						TryStatement* tStatement = dynamic_cast<TryStatement*>(statements[currentStatementNum]);
+
+						//check if the statement should be executed (if it hasn't been tried yet)
+						if(tStatement->getTried()){
+							tStatement->execute();
+						}
+					}
+					currentStatementNum++;
+					break;
+				case EndTryStatementAction:
+					currentStatementNum++;
+					break;
 				case TrySinkAction:
 					printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\nTry sink action called...\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); ///------------------------------------------------
 					dynamic_cast<TrySink*>(statements[currentStatementNum])->execute();
@@ -544,6 +602,7 @@ int main (int argc, char *argv[]) {
 	setLoopIDs();
 	setIfCondIDs();
 	setElseIDs();
+	setTryStatementIDs();
 
   printf("\n-----------------START GAME-----------------\n");
   runGame();

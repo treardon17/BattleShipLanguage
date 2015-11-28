@@ -57,20 +57,22 @@
      ENDELSE = 273,
      WHENSTATEMENT = 274,
      TRYSTATEMENT = 275,
-     COMPUTERLITERAL = 276,
-     PLAYERLITERAL = 277,
-     GRIDLITERAL = 278,
-     STRINGLITERAL = 279,
-     CHARLITERAL = 280,
-     INTLITERAL = 281,
-     IDENTIFIER = 282,
-     INTTYPE = 283,
-     CHARTYPE = 284,
-     STRINGTYPE = 285,
-     GRIDTYPE = 286,
-     PLAYERTYPE = 287,
-     COMPUTERTYPE = 288,
-     ASSIGNOP = 289
+     BEGINTRYSTATEMENT = 276,
+     ENDTRYSTATEMENT = 277,
+     COMPUTERLITERAL = 278,
+     PLAYERLITERAL = 279,
+     GRIDLITERAL = 280,
+     STRINGLITERAL = 281,
+     CHARLITERAL = 282,
+     INTLITERAL = 283,
+     IDENTIFIER = 284,
+     INTTYPE = 285,
+     CHARTYPE = 286,
+     STRINGTYPE = 287,
+     GRIDTYPE = 288,
+     PLAYERTYPE = 289,
+     COMPUTERTYPE = 290,
+     ASSIGNOP = 291
    };
 #endif
 /* Tokens.  */
@@ -92,27 +94,29 @@
 #define ENDELSE 273
 #define WHENSTATEMENT 274
 #define TRYSTATEMENT 275
-#define COMPUTERLITERAL 276
-#define PLAYERLITERAL 277
-#define GRIDLITERAL 278
-#define STRINGLITERAL 279
-#define CHARLITERAL 280
-#define INTLITERAL 281
-#define IDENTIFIER 282
-#define INTTYPE 283
-#define CHARTYPE 284
-#define STRINGTYPE 285
-#define GRIDTYPE 286
-#define PLAYERTYPE 287
-#define COMPUTERTYPE 288
-#define ASSIGNOP 289
+#define BEGINTRYSTATEMENT 276
+#define ENDTRYSTATEMENT 277
+#define COMPUTERLITERAL 278
+#define PLAYERLITERAL 279
+#define GRIDLITERAL 280
+#define STRINGLITERAL 281
+#define CHARLITERAL 282
+#define INTLITERAL 283
+#define IDENTIFIER 284
+#define INTTYPE 285
+#define CHARTYPE 286
+#define STRINGTYPE 287
+#define GRIDTYPE 288
+#define PLAYERTYPE 289
+#define COMPUTERTYPE 290
+#define ASSIGNOP 291
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 37 "battle.y"
+#line 38 "battle.y"
 { /* SEMANTIC RECORD */
 		char* sval;
 		char* id;
@@ -123,7 +127,7 @@ typedef union YYSTYPE
 		char* tryval;
 	}
 /* Line 1529 of yacc.c.  */
-#line 127 "battle.tab.h"
+#line 131 "battle.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

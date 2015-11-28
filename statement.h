@@ -2,12 +2,14 @@
 #define __STATEMENT_H__
 
 #include <iostream>
+#include <queue>
 #include "actions.h"
 #include "symtbl.h"
 
 enum Action {NoAction, AddBoatAction,
   AttackBoatAction, ShowVarAction,
   AssignAction, DeclareAction,
+  BeginTryStatementAction, EndTryStatementAction,
   TryStatementAction, TrySinkAction,
   BeginIfCondAction, EndIfCondAction,
   BeginElseAction, EndElseAction,
@@ -319,23 +321,6 @@ public:
   }
 };
 
-//try
-
-class TryStatement : public Statement {
-private:
-  int tryPriority;
-
-public:
-  TryStatement(int tryPriority){
-    this->action = TryStatementAction;
-  }
-
-  void execute(){
-
-  }
-
-};
-
 //BOAT STUFF----------------------------------------------------------
 class Boat : public Statement{
 private:
@@ -511,11 +496,17 @@ public:
             } //enables the computer to know where it started trying to sink the boat
           }
 
-        }else{
+        }else if(hitStatus == BoatMiss){
+          if(var->type == ComputerType){
+            Computer* myComputer = static_cast<Computer*>(myPlayer);
+            myComputer->goToInitialTrackBack(); //if there was a miss, go to the gridPoint where the first hit was
+          }
           //if the user has already hit a boat in that location, don't change the marking on the graph to a miss
           if(myPlayer->opponentGrid.grid[gridPoint] == -1){
             myPlayer->opponentGrid.grid[gridPoint] = (int)hitStatus; //updates the opponentGrid status
           }
+        }else{
+          logError("Invalid hitstatus called.");
         }
       }
 
@@ -548,6 +539,7 @@ private:
   char* varName;
   char* varAttackedName;
   int afterHitSeekDistance;
+  bool changeDirections;
 
 public:
   TrySink(char* varName, char* varAttackedName, std::string myDirection, int afterHitSeekDistance){
@@ -555,6 +547,7 @@ public:
     this->varName = varName;
     this->varAttackedName = varAttackedName;
     this->afterHitSeekDistance = afterHitSeekDistance;
+    this->changeDirections = false;
 
     for(int i = 0; i < myDirection.size(); i++){
       myDirection[i] = tolower(myDirection[i]); //make sure all characters are lowercase
@@ -582,6 +575,8 @@ public:
     varAttackedName = NULL;
   }
 
+  bool getChangeDirections(){return changeDirections;}
+
   void execute(){
     Variable* var = get_symbol(varName);
     Variable* varAttacked = get_symbol(varAttackedName);
@@ -608,6 +603,14 @@ public:
         std::string gridPoint = myComputer->tryToSinkBoat(direction, afterHitSeekDistance);
         Attack attack(strdup(varName), gridPoint, strdup(varAttackedName));
         attack.execute();
+        if(myComputer->getTrackBack().size() > 1){changeDirections = false;} //if having success
+        else{changeDirections = true;} //otherwise change directions
+
+
+        ///might need to fix ^^^^^^^^^^^^
+
+
+
     }else{
       logError("Can only perform TrySink Action on Computer type.");
     }
@@ -673,6 +676,103 @@ public:
     }
   }
 };
+
+//TRY STATEMENTS
+
+class TryStatement : public Statement {
+private:
+  int tryStatementID;
+  int tryStatementPriority;
+  bool tried;
+  Statement* myStatement;
+
+public:
+  TryStatement(int tryStatementPriority, Statement* myStatement){
+    this->action = TryStatementAction;
+    this->tried = false;
+  }
+
+  void setTried(){this->tried = true;}
+  void setTryStatementID(int tryStatementID){this->tryStatementID = tryStatementID;}
+  int getTryStatementID(){return tryStatementID;}
+  int getTryStatementPriority(){return tryStatementPriority;}
+  bool getTried(){return tried;}
+  void execute(){
+
+    switch (myStatement->getAction()) {
+        case NoAction:
+          printf("No action selected.\n");
+          tried = true;
+          break;
+        case AddBoatAction:
+          dynamic_cast<Boat*>(myStatement)->execute();
+          tried = true;
+          break;
+        case RandomAddBoatAction:
+          dynamic_cast<RandBoat*>(myStatement)->execute();
+          tried = true;
+          break;
+        case AttackBoatAction:
+          dynamic_cast<Attack*>(myStatement)->execute();
+          tried = true;
+          break;
+        case ShowVarAction:
+          dynamic_cast<ShowVar*>(myStatement)->execute();
+          tried = true;
+          break;
+        case AssignAction:
+          dynamic_cast<AssignToVar*>(myStatement)->execute();
+          tried = true;
+          break;
+        case DeclareAction:
+          dynamic_cast<VarDeclare*>(myStatement)->execute();
+          tried = true;
+          break;
+        case SeekAction:
+          dynamic_cast<Seek*>(myStatement)->execute();
+          tried = true;
+          break;
+        case TrySinkAction:
+        {
+          TrySink* tSink = dynamic_cast<TrySink*>(myStatement);
+          tSink->execute();
+          tried = tSink->getChangeDirections();
+        }
+          break;
+        default:
+          logError("Could not execute statement try.");
+          break;
+        }
+      }
+};
+
+//begin
+class BeginTryStatement : public Statement{
+private:
+  int tryStatementID;
+  int tryStatementExitLine;
+
+public:
+  BeginTryStatement(){ }
+  void setTryStatementExitLine(int tryStatementExitLine){this->tryStatementExitLine = tryStatementExitLine;}
+  void setTryStatementID(int tryStatementID){this->tryStatementID = tryStatementID;}
+  int getTryStatementID(){return tryStatementID;}
+  int getTryStatementExitLine(){return tryStatementExitLine;}
+  void execute(){ }
+};
+
+//end
+class EndTryStatement : public Statement{
+private:
+  int tryStatementID;
+
+public:
+  EndTryStatement(){ }
+  void setTryStatementID(int tryStatementID){this->tryStatementID = tryStatementID;}
+  int getTryStatementID(){return tryStatementID;}
+  void execute(){ }
+};
+
 
 
 #endif

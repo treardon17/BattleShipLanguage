@@ -530,13 +530,9 @@ public:
           }
           break;
         case Up:
-          std::cout << "randBoatCol: " << randBoatCol << std::endl; ///------------------------
-          std::cout << "randBoatRow: " << randBoatRow << std::endl; ///------------------------
           if(canMoveUp(afterHitSeekDistance) && shouldMoveUp(afterHitSeekDistance)){
             mostRecentTry = moveUp(afterHitSeekDistance);
           }
-          std::cout << "randBoatCol: " << randBoatCol << std::endl; ///------------------------
-          std::cout << "randBoatRow: " << randBoatRow << std::endl; ///------------------------
           break;
         case Down:
           if(canMoveDown(afterHitSeekDistance) && shouldMoveDown(afterHitSeekDistance)){
@@ -552,7 +548,6 @@ public:
       return mostRecentTry;
     }
 
-    printf("\n\n\nSeeking...\n\n\n"); ///------------------------------------------
     //if there wasn't actually a hit, return a seek
     return seek(1);
   }

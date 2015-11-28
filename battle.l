@@ -25,6 +25,8 @@ endif. { yylval.ifval = (char*) strdup(yytext); return ENDIFCOND;}
 else { yylval.ifval = (char*) strdup(yytext); return BEGINELSE;}
 endelse. { yylval.ifval = (char*) strdup(yytext); return ENDELSE;}
 when { yylval.whenval = (char*) strdup(yytext); return WHENSTATEMENT;}
+begintry { yylval.tryval = (char*) strdup(yytext); return BEGINTRYSTATEMENT;}
+endtry. { yylval.tryval = (char*) strdup(yytext); return ENDTRYSTATEMENT;}
 try { yylval.tryval = (char*) strdup(yytext); return TRYSTATEMENT;}
 
 "="			{ return ASSIGNOP; }
