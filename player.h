@@ -520,78 +520,30 @@ public:
           return seek(1);
           break;
         case Left:
-        printf("Current Direction is: left\n");
           if(canMoveLeft(afterHitSeekDistance) && shouldMoveLeft(afterHitSeekDistance)){
             mostRecentTry = moveLeft(afterHitSeekDistance);
-            printf("left\n"); ///----------------------------------------
-          }else if(canMoveRight(afterHitSeekDistance) && shouldMoveRight(afterHitSeekDistance)){
-            mostRecentTry = moveRight(afterHitSeekDistance);
-            printf("right\n"); ///----------------------------------------
-          }else if(canMoveUp(afterHitSeekDistance) && shouldMoveUp(afterHitSeekDistance)){
-            mostRecentTry = moveUp(afterHitSeekDistance);
-            printf("up\n"); ///----------------------------------------
-          } else if(canMoveDown(afterHitSeekDistance) && shouldMoveDown(afterHitSeekDistance)){
-            mostRecentTry = moveDown(afterHitSeekDistance);
-            printf("down\n"); ///----------------------------------------
           } else {
-            printf("Seek...\n"); ///-----------------------------------
             seek(1);
           }
           break;
         case Right:
-        printf("Current Direction is: right\n");
           if(canMoveRight(afterHitSeekDistance) && shouldMoveRight(afterHitSeekDistance)){
             mostRecentTry = moveRight(afterHitSeekDistance);
-            printf("right\n"); ///----------------------------------------
-          }else if(canMoveUp(afterHitSeekDistance) && shouldMoveUp(afterHitSeekDistance)){
-            mostRecentTry = moveUp(afterHitSeekDistance);
-            printf("up\n"); ///----------------------------------------
-          }else if(canMoveDown(afterHitSeekDistance) && shouldMoveDown(afterHitSeekDistance)){
-            mostRecentTry = moveDown(afterHitSeekDistance);
-            printf("down\n"); ///----------------------------------------
-          }else if(canMoveLeft(afterHitSeekDistance) && shouldMoveLeft(afterHitSeekDistance)){
-            mostRecentTry = moveLeft(afterHitSeekDistance);
-            printf("left\n"); ///----------------------------------------
-          } else {
-            printf("Seek...\n"); ///-----------------------------------
+          }else {
             seek(1);
           }
           break;
         case Up:
-        printf("Current Direction is: up\n");
           if(canMoveUp(afterHitSeekDistance) && shouldMoveUp(afterHitSeekDistance)){
             mostRecentTry = moveUp(afterHitSeekDistance);
-            printf("up\n"); ///----------------------------------------
-          } else if(canMoveDown(afterHitSeekDistance) && shouldMoveDown(afterHitSeekDistance)){
-            mostRecentTry = moveDown(afterHitSeekDistance);
-            printf("down\n"); ///----------------------------------------
-          } else if(canMoveLeft(afterHitSeekDistance) && shouldMoveLeft(afterHitSeekDistance)){
-            mostRecentTry = moveLeft(afterHitSeekDistance);
-            printf("left\n"); ///----------------------------------------
-          } if(canMoveRight(afterHitSeekDistance) && shouldMoveRight(afterHitSeekDistance)){
-            mostRecentTry = moveRight(afterHitSeekDistance);
-            printf("right\n"); ///----------------------------------------
           } else {
-            printf("Seek...\n"); ///-----------------------------------
             seek(1);
           }
           break;
         case Down:
-        printf("Current Direction is: down\n");
           if(canMoveDown(afterHitSeekDistance) && shouldMoveDown(afterHitSeekDistance)){
             mostRecentTry = moveDown(afterHitSeekDistance);
-            printf("down\n"); ///----------------------------------------
-          } else if(canMoveLeft(afterHitSeekDistance) && shouldMoveLeft(afterHitSeekDistance)){
-            mostRecentTry = moveLeft(afterHitSeekDistance);
-            printf("left\n"); ///----------------------------------------
-          } else if(canMoveRight(afterHitSeekDistance) && shouldMoveRight(afterHitSeekDistance)){
-            mostRecentTry = moveRight(afterHitSeekDistance);
-            printf("right\n"); ///----------------------------------------
-          } if(canMoveUp(afterHitSeekDistance) && shouldMoveUp(afterHitSeekDistance)){
-            mostRecentTry = moveUp(afterHitSeekDistance);
-            printf("up\n"); ///----------------------------------------
           } else {
-            printf("Seek...\n"); ///-----------------------------------
             seek(1);
           }
           break;
@@ -617,7 +569,7 @@ public:
 
   bool shouldMoveUp(int afterHitSeekDistance){
     std::ostringstream colAndRow;
-    colAndRow << trackBack.top().getCol() << (trackBack.top().getRow() - afterHitSeekDistance);
+    colAndRow << (char)(trackBack.top().getCol() )<< (trackBack.top().getRow() - afterHitSeekDistance);
     if(opponentGrid.grid[colAndRow.str()] == -1){ return true; }
     else { return false;}
   }
@@ -625,7 +577,7 @@ public:
   std::string moveUp(int afterHitSeekDistance){
     //make the column and row a string
     std::ostringstream colAndRow;
-    colAndRow << trackBack.top().getCol() << (trackBack.top().getRow() - afterHitSeekDistance);
+    colAndRow << (char)(trackBack.top().getCol()) << (trackBack.top().getRow() - afterHitSeekDistance);
     trackBack.push(colAndRow.str());
     return colAndRow.str();
   }
@@ -640,7 +592,7 @@ public:
 
   bool shouldMoveDown(int afterHitSeekDistance){
     std::ostringstream colAndRow;
-    colAndRow << trackBack.top().getCol() << (trackBack.top().getRow() + afterHitSeekDistance);
+    colAndRow << (char)(trackBack.top().getCol()) << (trackBack.top().getRow() + afterHitSeekDistance);
     if(opponentGrid.grid[colAndRow.str()] == -1){ return true; }
     else { return false;}
   }
@@ -648,7 +600,7 @@ public:
   std::string moveDown(int afterHitSeekDistance){
     //make the column and row a string
     std::ostringstream colAndRow;
-    colAndRow << trackBack.top().getCol() << (trackBack.top().getRow() + afterHitSeekDistance);
+    colAndRow << (char)(trackBack.top().getCol()) << (trackBack.top().getRow() + afterHitSeekDistance);
     trackBack.push(colAndRow.str());
     return colAndRow.str();
   }
@@ -671,7 +623,7 @@ public:
   std::string moveLeft(int afterHitSeekDistance){
     //make the column and row a string
     std::ostringstream colAndRow;
-    colAndRow << (trackBack.top().getCol() - afterHitSeekDistance) << randBoatRow;
+    colAndRow << (char)(trackBack.top().getCol() - afterHitSeekDistance) << randBoatRow;
     trackBack.push(colAndRow.str());
     return colAndRow.str();
   }
@@ -694,7 +646,7 @@ public:
   std::string moveRight(int afterHitSeekDistance){
     //make the column and row a string
     std::ostringstream colAndRow;
-    colAndRow << (trackBack.top().getCol() + afterHitSeekDistance) << randBoatRow;
+    colAndRow << (char)((trackBack.top().getCol() + afterHitSeekDistance)) << randBoatRow;
     trackBack.push(colAndRow.str());
     return colAndRow.str();
   }
