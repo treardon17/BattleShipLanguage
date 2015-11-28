@@ -521,10 +521,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    91,    91,    92,    95,   102,   108,   152,   157,   162,
-     168,   173,   178,   183,   188,   193,   200,   206,   216,   221,
-     233,   251,   255,   260,   271,   279,   286,   293,   301,   309,
-     323,   324,   325,   326,   327
+       0,    91,    91,    92,    95,   102,   108,   153,   158,   163,
+     169,   174,   179,   184,   189,   194,   201,   207,   217,   222,
+     234,   252,   256,   261,   272,   280,   287,   294,   302,   310,
+     324,   325,   326,   327,   328
 };
 #endif
 
@@ -1532,13 +1532,14 @@ yyreduce:
 				errorMessage += actionNumber;
 				errorMessage += " does not exist.";
 				logError(errorMessage);}
+				throw syntaxError;
         break;
       }
 	;}
     break;
 
   case 7:
-#line 153 "battle.y"
+#line 154 "battle.y"
     {
         BeginLoop* bLoop = new BeginLoop(lineNumberGlobal, true);
         statements.push_back(bLoop);
@@ -1546,7 +1547,7 @@ yyreduce:
     break;
 
   case 8:
-#line 158 "battle.y"
+#line 159 "battle.y"
     {
         EndLoop* eLoop = new EndLoop();
         statements.push_back(eLoop);
@@ -1554,7 +1555,7 @@ yyreduce:
     break;
 
   case 9:
-#line 163 "battle.y"
+#line 164 "battle.y"
     {
 				BeginIfCond* bIfCond = new BeginIfCond(strdup(exprToString(exprs.top()).c_str()), CurrentBool);
 				statements.push_back(bIfCond);
@@ -1563,7 +1564,7 @@ yyreduce:
     break;
 
   case 10:
-#line 169 "battle.y"
+#line 170 "battle.y"
     {
 				EndIfCond* eIfCond = new EndIfCond();
 				statements.push_back(eIfCond);
@@ -1571,7 +1572,7 @@ yyreduce:
     break;
 
   case 11:
-#line 174 "battle.y"
+#line 175 "battle.y"
     {
 			BeginElse* bElse = new BeginElse();
 			statements.push_back(bElse);
@@ -1579,7 +1580,7 @@ yyreduce:
     break;
 
   case 12:
-#line 179 "battle.y"
+#line 180 "battle.y"
     {
 			EndElse* eElse = new EndElse();
 			statements.push_back(eElse);
@@ -1587,7 +1588,7 @@ yyreduce:
     break;
 
   case 13:
-#line 184 "battle.y"
+#line 185 "battle.y"
     {
 				BeginTryStatement* bTry = new BeginTryStatement();
 				statements.push_back(bTry);
@@ -1595,7 +1596,7 @@ yyreduce:
     break;
 
   case 14:
-#line 189 "battle.y"
+#line 190 "battle.y"
     {
 				EndTryStatement* eTry = new EndTryStatement();
 				statements.push_back(eTry);
@@ -1603,7 +1604,7 @@ yyreduce:
     break;
 
   case 15:
-#line 194 "battle.y"
+#line 195 "battle.y"
     {
 			Statement* myStatement = statements.back()->Clone();
 			statements.pop_back();
@@ -1613,14 +1614,14 @@ yyreduce:
     break;
 
   case 16:
-#line 201 "battle.y"
+#line 202 "battle.y"
     {
 
 		;}
     break;
 
   case 17:
-#line 207 "battle.y"
+#line 208 "battle.y"
     {
 		Expression* varName = new Expression();
 		varName->type = String;
@@ -1632,7 +1633,7 @@ yyreduce:
     break;
 
   case 18:
-#line 217 "battle.y"
+#line 218 "battle.y"
     {
     CurrentAction = AddBoatAction;
     args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (1)].sval)))));
@@ -1640,7 +1641,7 @@ yyreduce:
     break;
 
   case 19:
-#line 222 "battle.y"
+#line 223 "battle.y"
     {
     CurrentAction = AttackBoatAction;
 
@@ -1655,7 +1656,7 @@ yyreduce:
     break;
 
   case 20:
-#line 234 "battle.y"
+#line 235 "battle.y"
     {
 		CurrentAction = SeekAction;
 
@@ -1676,14 +1677,14 @@ yyreduce:
     break;
 
   case 21:
-#line 252 "battle.y"
+#line 253 "battle.y"
     {
 	  CurrentAction = ShowVarAction;
 	;}
     break;
 
   case 22:
-#line 256 "battle.y"
+#line 257 "battle.y"
     {
 	  CurrentAction = RandomAddBoatAction;
 	  args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (1)].sval)))));
@@ -1691,7 +1692,7 @@ yyreduce:
     break;
 
   case 23:
-#line 261 "battle.y"
+#line 262 "battle.y"
     {
 		CurrentAction = TrySinkAction;
 		args.push(typifyArgs(getArguments(std::string((yyvsp[(1) - (3)].sval))))); //get direction and afterHitSeekDistance
@@ -1704,7 +1705,7 @@ yyreduce:
     break;
 
   case 24:
-#line 272 "battle.y"
+#line 273 "battle.y"
     {
 			int r = getIntegerValue(std::string((yyvsp[(1) - (1)].sval)));
       Variable* l = new Variable();
@@ -1715,7 +1716,7 @@ yyreduce:
     break;
 
   case 25:
-#line 280 "battle.y"
+#line 281 "battle.y"
     {
 			Variable* l = new Variable();
 			l->type = Char;
@@ -1725,7 +1726,7 @@ yyreduce:
     break;
 
   case 26:
-#line 287 "battle.y"
+#line 288 "battle.y"
     {
 			Variable* l = new Variable();
 			l->type = String;
@@ -1735,7 +1736,7 @@ yyreduce:
     break;
 
   case 27:
-#line 294 "battle.y"
+#line 295 "battle.y"
     {
     Variable *l = new Variable();
 		Player* p = new Player((yyvsp[(1) - (1)].sval));
@@ -1746,7 +1747,7 @@ yyreduce:
     break;
 
   case 28:
-#line 302 "battle.y"
+#line 303 "battle.y"
     {
     Variable *l = new Variable();
     Computer* c = new Computer((yyvsp[(1) - (1)].sval));
@@ -1757,7 +1758,7 @@ yyreduce:
     break;
 
   case 29:
-#line 310 "battle.y"
+#line 311 "battle.y"
     {
 			Variable* v = get_symbol((yyvsp[(1) - (1)].id));
 			if (v == NULL) {
@@ -1771,33 +1772,33 @@ yyreduce:
     break;
 
   case 30:
-#line 323 "battle.y"
+#line 324 "battle.y"
     { tCurr = Int; ;}
     break;
 
   case 31:
-#line 324 "battle.y"
+#line 325 "battle.y"
     { tCurr = Char; ;}
     break;
 
   case 32:
-#line 325 "battle.y"
+#line 326 "battle.y"
     { tCurr = String; ;}
     break;
 
   case 33:
-#line 326 "battle.y"
+#line 327 "battle.y"
     { tCurr = PlayerType; ;}
     break;
 
   case 34:
-#line 327 "battle.y"
+#line 328 "battle.y"
     { tCurr = ComputerType; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1801 "battle.tab.c"
+#line 1802 "battle.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2011,7 +2012,7 @@ yyreturn:
 }
 
 
-#line 330 "battle.y"
+#line 331 "battle.y"
 
 
 void setLoopIDs(){
@@ -2116,6 +2117,7 @@ void setTryStatementIDs(){
 					TryStatement* myTry = dynamic_cast<TryStatement*>(statements[j]);
 					myTry->setTryStatementID(tryStatementID);
 					tryStatements.push_back(myTry);
+					bTry->addTryStatement(myTry);
 				}else if(statements[j]->getAction() == EndTryStatementAction){
 					bTry->setTryStatementExitLine(j);
 
@@ -2249,6 +2251,12 @@ void runGame(){
 					currentStatementNum++;
 					break;
 				case BeginTryStatementAction:
+					{
+						BeginTryStatement* bTry = dynamic_cast<BeginTryStatement*>(statements[currentStatementNum]);
+						if(bTry->allAreTried()){
+							bTry->setTriesToFalse();
+						}
+					}
 					currentStatementNum++;
 					break;
 				case TryStatementAction:
@@ -2267,13 +2275,13 @@ void runGame(){
 					currentStatementNum++;
 					break;
 				case TrySinkAction:
-					printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\nTry sink action called...\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); ///------------------------------------------------
 					dynamic_cast<TrySink*>(statements[currentStatementNum])->execute();
 					currentStatementNum++;
 					break;
         default:
           //printf("Could not execute statement.\n");
 					logError("Could not execute statement in runGame.");
+					throw syntaxError;
           currentStatementNum = statements.size() - 1; //quit game
           break;
       }
@@ -2288,21 +2296,25 @@ void runGame(){
 int main (int argc, char *argv[]) {
   srand(time(NULL)); //seed the random
 
-  extern FILE *yyin;
-  ++argv; --argc;
-  yyin = fopen(argv[0], "r");
-  yydebug = 1;
-  errors = 0;
-  yyparse();
+	try{
+	  extern FILE *yyin;
+	  ++argv; --argc;
+	  yyin = fopen(argv[0], "r");
+	  yydebug = 1;
+	  errors = 0;
+	  yyparse();
 
-	setLoopIDs();
-	setIfCondIDs();
-	setElseIDs();
-	setTryStatementIDs();
+		setLoopIDs();
+		setIfCondIDs();
+		setElseIDs();
+		setTryStatementIDs();
 
-  printf("\n-----------------START GAME-----------------\n");
-  runGame();
-  printf("\n--------------------Exit--------------------\n");
+	  printf("\n-----------------START GAME-----------------\n");
+	  runGame();
+	  printf("\n--------------------Exit--------------------\n");
+	}catch(std::exception& e){
+		std::cout << e.what() << std::endl;
+	}
 
   cleanupTable();
   printf("Parse Completed: %d errors.\n", errors);

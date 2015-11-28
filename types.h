@@ -49,6 +49,7 @@ public:
       default:
         //printf("Error freeing memory in Expression destructor\n");
         logError("Error freeing memory in Expression destructor.");
+        throw syntaxError;
         break;
     }
   }

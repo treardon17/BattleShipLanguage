@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include "types.h"
+#include "errorLogger.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,8 @@ int getIntegerValue(std::string intString){
       endValue += ((pow(10, numZeros))*((int)intString[i] - '0'));
       numZeros--;
     }else{
-      std::cout << "Invalid integer." << std::endl;
+      logError("Invalid integer.");
+			throw syntaxError;
       return -1;
     }
 	}
@@ -30,7 +32,8 @@ char getCharValue(std::string charString){
   if(charString.size() > 0 && (int)tolower(charString[0]) >= 97 && (int)tolower(charString[0]) <= 122){
     return tolower(charString[0]);
   }else{
-    std::cout << "Invalid char." << std::endl;
+    logError("Invalid char.");
+		throw syntaxError;
     return -1;
   }
 }
@@ -116,7 +119,8 @@ std::string exprToString(Expression* expr){
       return *((std::string*)(expr->value));
       break;
     default:
-      printf("Invalid type.  Must be string.\n");
+      logError("Invalid type.  Must be string.\n");
+			throw syntaxError;
       return NULL;
       break;
   }
@@ -129,7 +133,8 @@ char exprToChar(Expression* expr){
       return *((char*)(expr->value));
       break;
     default:
-      printf("Invalid type.  Must be char.\n");
+      logError("Invalid type.  Must be char.\n");
+			throw syntaxError;
       return 0;
       break;
   }
@@ -142,7 +147,8 @@ int exprToInt(Expression* expr){
       return *((int*)(expr->value));
       break;
     default:
-      printf("Invalid type.  Must be int.\n");
+      logError("Invalid type.  Must be int.\n");
+			throw syntaxError;
       return (int)NULL;
       break;
   }
@@ -154,7 +160,8 @@ bool exprToBool(Expression* expr){
 			return *((bool*)(expr->value));
 			break;
 		default:
-			printf("Invalid type.  Must be bool.\n");
+			logError("Invalid type.  Must be bool.\n");
+			throw syntaxError;
 			return (bool)NULL;
 			break;
 	}

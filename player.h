@@ -507,6 +507,7 @@ public:
   //afterHitSeekDistance is the user specified interval the computer will look
   //  in the specified direction after a hit was made
   std::string tryToSinkBoat(Direction newDirection, int afterHitSeekDistance){
+
     //if the most recent try was a success...
     if(trackBack.size() > 0){
       currentDirection = newDirection; //set the direction of the attack
@@ -555,8 +556,6 @@ public:
 //UP-------------------------------------------
   bool canMoveUp(int afterHitSeekDistance){
     if((trackBack.top().getRow() - afterHitSeekDistance) < 1){
-      //printf("Vertical out of bounds. Row number was too small.\n");
-      logError("Vertical out of bounds. Row number was too small.");
       return false;
     }
     return true;
@@ -580,8 +579,6 @@ public:
 //DOWN-------------------------------------------
   bool canMoveDown(int afterHitSeekDistance){
     if((trackBack.top().getRow() + afterHitSeekDistance) > playerGrid.GridDimensions){
-      //printf("Vertical out of bounds. Row number was too large.\n");
-      logError("Vertical out of bounds. Row number was too small.");
       return false;
     }
     return true;
@@ -605,8 +602,6 @@ public:
 //LEFT-------------------------------------------
   bool canMoveLeft(int afterHitSeekDistance){
     if((trackBack.top().getCol() - afterHitSeekDistance) < 'a'){
-      //printf("Horizontal out of bounds. Column too far left.\n");
-      logError("Horizontal out of bounds. Row number was too small.");
       return false;
     }
     return true;
@@ -630,8 +625,6 @@ public:
 //RIGHT-------------------------------------------
   bool canMoveRight(int afterHitSeekDistance){
     if((trackBack.top().getCol() + afterHitSeekDistance) > playerGrid.GridDimensions + 97){
-      //printf("Horizontal out of bounds. Column too far right\n");
-      logError("Horizontal out of bounds. Row number was too small.");
       return false;
     }
     return true;

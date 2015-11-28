@@ -73,6 +73,7 @@ public:
       message += std::string(varName);
       message += " already exists.";
       logError(message);
+      throw syntaxError;
     }
   }
 };
@@ -108,6 +109,7 @@ public:
       message += std::string(varName);
       message += " not found.";
       logError(message);
+      throw syntaxError;
     }
     // type checking
     if (var->type != exprAssigned->type) {
@@ -216,6 +218,7 @@ public:
       message += std::string(varName);
       message += " not found.";
       logError(message);
+      throw syntaxError;
     }else{
       //check if the players are of the right type
       if(var->type == PlayerType || var->type == ComputerType){
@@ -226,10 +229,12 @@ public:
           case NoBool:
             //printf("Bool type not assigned\n");
             logError("Bool type not assigned.");
+            throw syntaxError;
             break;
           default:
             //printf("Could not perform bool action\n");
             logError("Could not perform bool action");
+            throw syntaxError;
             break;
         }
       }
@@ -328,6 +333,7 @@ public:
       message += std::string(varName);
       message += " not found.";
       logError(message);
+      throw syntaxError;
       return;
     }
 
@@ -350,6 +356,7 @@ public:
       default:
         //printf("Display is not supported for this type\n");
         logError("Display not supported for this type.");
+        throw syntaxError;
         break;
     }
   }
@@ -409,6 +416,7 @@ public:
     }else{
       //printf("addBoat() needs 4 arguments but %d were given.\n", (int)typedArgs.size());
       logError("Incorrect number of arguments in addBoat().");
+      throw syntaxError;
     }
   }
 };
@@ -428,6 +436,7 @@ public:
     }else{
       //printf("Incorrect expression type. Must be Int.\n");
       logError("Incorrect expression type. Must be Int.");
+      throw syntaxError;
       this->numBoats = 5;
     }
   }
@@ -448,6 +457,7 @@ public:
       message += std::string(varName);
       message += " not found.";
       logError(message);
+      throw syntaxError;
       return;
     }
 
@@ -492,6 +502,7 @@ public:
     if(var->name == varAttacked->name){
       //std::cout << "Player cannot attack its own ships." << std::endl;
       logError("Player cannot attack its own ships.");
+      throw syntaxError;
       return;
     }
 
@@ -550,6 +561,7 @@ public:
           }
         }else{
           logError("Invalid hitstatus called.");
+          throw syntaxError;
         }
       }
 
@@ -608,6 +620,7 @@ public:
       direction = Down;
     }else{
       logError("Invalid direction string.");
+      throw syntaxError;
     }
   }
 
@@ -622,6 +635,7 @@ public:
   Statement *Clone() { return new TrySink(*this); }
 
   bool getChangeDirections(){return changeDirections;}
+  Direction getDirection(){return direction;}
 
   void execute(){
     Variable* var = get_symbol(varName);
@@ -633,6 +647,7 @@ public:
       message += std::string(varName);
       message += " not found.";
       logError(message);
+      throw syntaxError;
       return;
     }
 
@@ -641,6 +656,7 @@ public:
       message += std::string(varAttackedName);
       message += " not found.";
       logError(message);
+      throw syntaxError;
       return;
     }
 
@@ -651,14 +667,9 @@ public:
         attack.execute();
         if(myComputer->getTrackBack().size() > 1){changeDirections = false;} //if having success
         else{changeDirections = true;} //otherwise change directions
-
-
-        ///might need to fix ^^^^^^^^^^^^
-
-
-
     }else{
       logError("Can only perform TrySink Action on Computer type.");
+      throw syntaxError;
     }
   }
 };
@@ -700,6 +711,7 @@ public:
       message += std::string(varName);
       message += " not found.";
       logError(message);
+      throw syntaxError;
       return;
     }
     if(varAttacked == NULL){
@@ -708,6 +720,7 @@ public:
       message += std::string(varAttackedName);
       message += " not found.";
       logError(message);
+      throw syntaxError;
       return;
     }
 
@@ -721,6 +734,7 @@ public:
     }else if(var->type != ComputerType){
       //printf("Can only perform seek action on Computer.\n");
       logError("Can only perform seek action on Computer.");
+      throw syntaxError;
       return;
     }
   }
@@ -752,13 +766,13 @@ public:
   Statement *Clone() { return new TryStatement(*this); }
 
   void setTried(){this->tried = true;}
+  void setNotTried(){this->tried = false;}
   void setTryStatementID(int tryStatementID){this->tryStatementID = tryStatementID;}
-  void setTryStatementExitLine(int tryStatementExitLine){this->tryStatementExitLine = tryStatementExitLine;}
+  void setTryStatementExitLine(int tryStatementExitLine){this->tryStatementExitLine = tryStatementExitLine + 1;}
   int getTryStatementID(){return tryStatementID;}
   int getTryStatementPriority(){return tryStatementPriority;}
   int getTryStatementExitLine(){return tryStatementExitLine;}
   bool getTried(){return tried;}
-
 
   void execute(){
     switch (myStatement->getAction()) {
@@ -796,7 +810,6 @@ public:
           break;
         case TrySinkAction:
         {
-          printf("\n\n\n\n\n\n\n\nmade it to try sink action!!\n\n\n\n\n\n\n\n"); ///------------------------------------------------
           TrySink* tSink = dynamic_cast<TrySink*>(myStatement);
           tSink->execute();
           tried = tSink->getChangeDirections();
@@ -804,6 +817,7 @@ public:
           break;
         default:
           logError("Could not execute statement try.");
+          throw syntaxError;
           break;
         }
       }
@@ -814,6 +828,7 @@ class BeginTryStatement : public Statement{
 private:
   int tryStatementID;
   int tryStatementExitLine;
+  std::vector<TryStatement*> tryStatements;
 
 public:
   BeginTryStatement(){
@@ -825,10 +840,30 @@ public:
   //deep copy constructor
   Statement *Clone() { return new BeginTryStatement(*this); }
 
-  void setTryStatementExitLine(int tryStatementExitLine){this->tryStatementExitLine = tryStatementExitLine;}
+  void addTryStatement(TryStatement* tryStatement){this->tryStatements.push_back(tryStatement);}
+  void setTryStatementExitLine(int tryStatementExitLine){this->tryStatementExitLine = tryStatementExitLine + 1;}
   void setTryStatementID(int tryStatementID){this->tryStatementID = tryStatementID;}
   int getTryStatementID(){return tryStatementID;}
   int getTryStatementExitLine(){return tryStatementExitLine;}
+
+  bool allAreTried(){
+    bool allTried = true;
+    for(int i = 0; i < tryStatements.size(); i++){
+      //if not all statements are tried
+      if(!tryStatements[i]->getTried()){
+        allTried = false;
+        break;
+      }
+    }
+    return allTried;
+  }
+
+  void setTriesToFalse(){
+    for(int i = 0; i < tryStatements.size(); i++){
+      tryStatements[i]->setNotTried();
+    }
+  }
+
   void execute(){ }
 };
 

@@ -146,6 +146,7 @@ line : IDENTIFIER ASSIGNOP expr
 				errorMessage += actionNumber;
 				errorMessage += " does not exist.";
 				logError(errorMessage);}
+				throw syntaxError;
         break;
       }
 	}
@@ -431,6 +432,7 @@ void setTryStatementIDs(){
 					TryStatement* myTry = dynamic_cast<TryStatement*>(statements[j]);
 					myTry->setTryStatementID(tryStatementID);
 					tryStatements.push_back(myTry);
+					bTry->addTryStatement(myTry);
 				}else if(statements[j]->getAction() == EndTryStatementAction){
 					bTry->setTryStatementExitLine(j);
 
@@ -564,6 +566,12 @@ void runGame(){
 					currentStatementNum++;
 					break;
 				case BeginTryStatementAction:
+					{
+						BeginTryStatement* bTry = dynamic_cast<BeginTryStatement*>(statements[currentStatementNum]);
+						if(bTry->allAreTried()){
+							bTry->setTriesToFalse();
+						}
+					}
 					currentStatementNum++;
 					break;
 				case TryStatementAction:
@@ -582,13 +590,13 @@ void runGame(){
 					currentStatementNum++;
 					break;
 				case TrySinkAction:
-					printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\nTry sink action called...\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); ///------------------------------------------------
 					dynamic_cast<TrySink*>(statements[currentStatementNum])->execute();
 					currentStatementNum++;
 					break;
         default:
           //printf("Could not execute statement.\n");
 					logError("Could not execute statement in runGame.");
+					throw syntaxError;
           currentStatementNum = statements.size() - 1; //quit game
           break;
       }
@@ -603,21 +611,25 @@ void runGame(){
 int main (int argc, char *argv[]) {
   srand(time(NULL)); //seed the random
 
-  extern FILE *yyin;
-  ++argv; --argc;
-  yyin = fopen(argv[0], "r");
-  yydebug = 1;
-  errors = 0;
-  yyparse();
+	try{
+	  extern FILE *yyin;
+	  ++argv; --argc;
+	  yyin = fopen(argv[0], "r");
+	  yydebug = 1;
+	  errors = 0;
+	  yyparse();
 
-	setLoopIDs();
-	setIfCondIDs();
-	setElseIDs();
-	setTryStatementIDs();
+		setLoopIDs();
+		setIfCondIDs();
+		setElseIDs();
+		setTryStatementIDs();
 
-  printf("\n-----------------START GAME-----------------\n");
-  runGame();
-  printf("\n--------------------Exit--------------------\n");
+	  printf("\n-----------------START GAME-----------------\n");
+	  runGame();
+	  printf("\n--------------------Exit--------------------\n");
+	}catch(std::exception& e){
+		std::cout << e.what() << std::endl;
+	}
 
   cleanupTable();
   printf("Parse Completed: %d errors.\n", errors);

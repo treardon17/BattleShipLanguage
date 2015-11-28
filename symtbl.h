@@ -17,6 +17,7 @@ Variable* add_symbol(std::string name, Type t){
 	if(symbol_table.count(name)){
 		//printf("Symbol already exists\n");
 		logError("Symbol already exists");
+		throw syntaxError;
 		return symbol_table[name];
 	}else{
 		Variable* newVar = new Variable();
