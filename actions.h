@@ -21,7 +21,6 @@ int getIntegerValue(std::string intString){
       numZeros--;
     }else{
       logError("Invalid integer.");
-			throw syntaxError;
       return -1;
     }
 	}
@@ -33,7 +32,6 @@ char getCharValue(std::string charString){
     return tolower(charString[0]);
   }else{
     logError("Invalid char.");
-		throw syntaxError;
     return -1;
   }
 }
@@ -134,7 +132,6 @@ char exprToChar(Expression* expr){
       break;
     default:
       logError("Invalid type.  Must be char.\n");
-			throw syntaxError;
       return 0;
       break;
   }
@@ -148,7 +145,6 @@ int exprToInt(Expression* expr){
       break;
     default:
       logError("Invalid type.  Must be int.\n");
-			throw syntaxError;
       return (int)NULL;
       break;
   }
@@ -161,7 +157,6 @@ bool exprToBool(Expression* expr){
 			break;
 		default:
 			logError("Invalid type.  Must be bool.\n");
-			throw syntaxError;
 			return (bool)NULL;
 			break;
 	}

@@ -451,7 +451,7 @@ void setTryStatementIDs(){
 
 void runGame(){
 
-	bool debug = true; //turns on debug notifications
+	bool debug = false; //turns on debug notifications
 
   //a map containing the loopID as the key, and the statement number as the value
 	std::map<int, int> loopIDs;

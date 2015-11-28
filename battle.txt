@@ -8,10 +8,10 @@ Putin->randomlyAddBoats(9)
 loop:
   if Vlad->findsBoat():
     begintry:
-      1.try: Vlad->trySink("up",1)->Putin
-      2.try: Vlad->trySink("down",1)->Putin
-      3.try: Vlad->trySink("left",1)->Putin
-      4.try: Vlad->trySink("right",1)->Putin
+      1.try: Vlad->trySink("left",1)->Putin
+      2.try: Vlad->trySink("right",1)->Putin
+      3.try: Vlad->trySink("up",1)->Putin
+      4.try: Vlad->trySink("down",1)->Putin
     endtry.
   endif.
   else:
