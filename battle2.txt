@@ -9,9 +9,9 @@ loop:
   if Putin->findsBoat():
     begintry:
       1.try: Putin->trySink("up",1)->Tyler
-      //2.try: Putin->trySink("down",1)->Tyler
-      //3.try: Putin->trySink("left",1)->Tyler
-      //4.try: Putin->trySink("right",1)->Tyler
+      2.try: Putin->trySink("down",1)->Tyler
+      3.try: Putin->trySink("left",1)->Tyler
+      4.try: Putin->trySink("right",1)->Tyler
     endtry.
     Putin->show()
   endif.

@@ -192,8 +192,9 @@ line : IDENTIFIER ASSIGNOP expr
 		}
 	| INTLITERAL STATEMENTNUMSYMBOL TRYSTATEMENT STATEMENTNUMSYMBOLSTART line
 		{
-			TryStatement* myTry = new TryStatement(getIntegerValue(std::string($1)), statements.back());
+			Statement* myStatement = statements.back()->Clone();
 			statements.pop_back();
+			TryStatement* myTry = new TryStatement(getIntegerValue(std::string($1)), myStatement);
 			statements.push_back(myTry);
 		}
 	| WHENSTATEMENT
@@ -412,6 +413,7 @@ void setElseIDs(){
 }
 
 void setTryStatementIDs(){
+	std::vector<TryStatement*> tryStatements;
 	int tryStatementID = 0;
 	for(int i = 0; i < statements.size(); i++){
 
@@ -424,11 +426,19 @@ void setTryStatementIDs(){
 
 			//look for the try statement commands between the beginning of the try statement and the end of the try statement
 			for(int j = i; j < statements.size(); j++){
+
 				if(statements[j]->getAction() == TryStatementAction){
 					TryStatement* myTry = dynamic_cast<TryStatement*>(statements[j]);
 					myTry->setTryStatementID(tryStatementID);
+					tryStatements.push_back(myTry);
 				}else if(statements[j]->getAction() == EndTryStatementAction){
-					bTry->setTryStatementExitLine(i);
+					bTry->setTryStatementExitLine(j);
+
+					//let all of the trystatements know where the end of the try block is
+					for(int k = 0; k < tryStatements.size(); k++){
+						tryStatements[k]->setTryStatementExitLine(j);
+					}
+
 					dynamic_cast<EndTryStatement*>(statements[j])->setTryStatementID(tryStatementID--);
 					j = statements.size() - 1; //exit the loop when the end of the try statement is found
 				}
@@ -559,13 +569,14 @@ void runGame(){
 				case TryStatementAction:
 					{
 						TryStatement* tStatement = dynamic_cast<TryStatement*>(statements[currentStatementNum]);
-
 						//check if the statement should be executed (if it hasn't been tried yet)
-						if(tStatement->getTried()){
+						if(!tStatement->getTried()){
 							tStatement->execute();
+							currentStatementNum = tStatement->getTryStatementExitLine(); //exit the try statement
+						}else{
+							currentStatementNum++;
 						}
 					}
-					currentStatementNum++;
 					break;
 				case EndTryStatementAction:
 					currentStatementNum++;

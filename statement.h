@@ -19,6 +19,7 @@ enum Action {NoAction, AddBoatAction,
 std::string actionnames[] = {"NoAction", "AddBoatAction",
   "AttackBoatAction", "ShowVarAction",
   "AssignAction", "DeclareAction",
+  "BeginTryStatementAction", "EndTryStatementAction",
   "TryStatementAction", "TrySinkAction",
   "BeginIfCondAction", "EndIfCondAction",
   "BeginElseAction", "EndElseAction",
@@ -37,6 +38,7 @@ protected:
 
 public:
     virtual ~Statement(){}
+    virtual Statement *Clone() = 0;
     virtual void execute() = 0;
     Action getAction() { return action; }
 };
@@ -59,6 +61,9 @@ public:
     delete varName;
     varName = NULL;
   }
+
+  //deep copy constructor
+  Statement *Clone() { return new VarDeclare(*this); }
 
   void execute(){
     Variable* t = add_symbol(varName, tCurr);
@@ -91,6 +96,9 @@ public:
       delete exprAssigned;
       exprAssigned = NULL;
   }
+
+  //deep copy constructor
+  Statement *Clone() { return new AssignToVar(*this); }
 
   void execute(){
     Variable* var = get_symbol(varName);
@@ -129,6 +137,11 @@ public:
     this->loopExitLine = -1;
   }
 
+  ~BeginLoop(){}
+
+  //deep copy constructor
+  Statement *Clone() { return new BeginLoop(*this); }
+
   int getLoopID() { return loopID; }
   int getExitLine() { return loopExitLine; }
   bool getCondition() { return condition ; }
@@ -147,6 +160,10 @@ public:
   EndLoop(){
     this->action = EndLoopAction;
   }
+  ~EndLoop(){}
+
+  //deep copy constructor
+  Statement *Clone() { return new EndLoop(*this); }
 
   int getLoopID(){ return loopID; }
   void setLoopID(int loopID){ this->loopID = loopID; }
@@ -177,6 +194,9 @@ public:
     delete varName;
     varName = NULL;
   }
+
+  //deep copy constructor
+  Statement *Clone() { return new BeginIfCond(*this); }
 
   bool getCondition(){ return condition; }
   int getExitLine() { return ifCondExitLine; }
@@ -227,6 +247,10 @@ public:
     this->action = EndIfCondAction;
   }
 
+  ~EndIfCond(){}
+  //deep copy constructor
+  Statement *Clone() { return new EndIfCond(*this); }
+
   int getIfCondID() { return ifCondID; }
   int getElseExitLine() { return elseExitLine; }
   void setIfCondID(int ifCondID){ this->ifCondID = ifCondID; }
@@ -234,7 +258,7 @@ public:
   void execute() { }
 };
 
-//else
+//Begin Else
 class BeginElse : public Statement{
 private:
   int ifCondID;
@@ -245,6 +269,9 @@ public:
   BeginElse(){
     this->action = BeginElseAction;
   }
+  ~BeginElse(){}
+  //deep copy constructor
+  Statement *Clone() { return new BeginElse(*this); }
 
   int getIfCondID() {return ifCondID; }
   int getElseID() { return elseID; }
@@ -254,6 +281,7 @@ public:
   void execute() { }
 };
 
+//End else
 class EndElse : public Statement{
 private:
   int elseID;
@@ -262,6 +290,9 @@ public:
   EndElse(){
     this->action = EndElseAction;
   }
+  ~EndElse(){}
+  //deep copy constructor
+  Statement *Clone() { return new EndElse(*this); }
 
   int getElseID() { return elseID; }
   void setElseID(int elseID){ this->elseID = elseID; }
@@ -283,6 +314,9 @@ public:
     delete varName;
     varName = NULL;
   }
+
+  //deep copy constructor
+  Statement *Clone() { return new ShowVar(*this); }
 
   void execute(){
 
@@ -344,6 +378,9 @@ public:
     }
   }
 
+  //deep copy constructor
+  Statement *Clone() { return new Boat(*this); }
+
   //adds a boat to the specified variable
   void execute(){
     Variable* var = get_symbol(varName);
@@ -400,6 +437,9 @@ public:
     varName = NULL;
   }
 
+  //deep copy constructor
+  Statement *Clone() { return new RandBoat(*this); }
+
   void execute(){
     Variable* var = get_symbol(varName);
     if(var == NULL){
@@ -439,6 +479,9 @@ public:
     delete varAttackedName;
     varAttackedName = NULL;
   }
+
+  //deep copy constructor
+  Statement *Clone() { return new Attack(*this); }
 
   //Attacks a player at specified gridPoint
   void execute(){
@@ -575,6 +618,9 @@ public:
     varAttackedName = NULL;
   }
 
+  //deep copy constructor
+  Statement *Clone() { return new TrySink(*this); }
+
   bool getChangeDirections(){return changeDirections;}
 
   void execute(){
@@ -640,6 +686,9 @@ public:
     varAttackedName = NULL;
   }
 
+  //deep copy constructor
+  Statement *Clone() { return new Seek(*this); }
+
   void execute(){
     Variable* var = get_symbol(varName);
     Variable* varAttacked = get_symbol(varAttackedName);
@@ -684,21 +733,34 @@ private:
   int tryStatementID;
   int tryStatementPriority;
   bool tried;
+  int tryStatementExitLine;
   Statement* myStatement;
 
 public:
   TryStatement(int tryStatementPriority, Statement* myStatement){
     this->action = TryStatementAction;
+    this->myStatement = myStatement;
     this->tried = false;
   }
 
+  ~TryStatement(){
+    delete myStatement;
+    myStatement = NULL;
+  }
+
+  //deep copy constructor
+  Statement *Clone() { return new TryStatement(*this); }
+
   void setTried(){this->tried = true;}
   void setTryStatementID(int tryStatementID){this->tryStatementID = tryStatementID;}
+  void setTryStatementExitLine(int tryStatementExitLine){this->tryStatementExitLine = tryStatementExitLine;}
   int getTryStatementID(){return tryStatementID;}
   int getTryStatementPriority(){return tryStatementPriority;}
+  int getTryStatementExitLine(){return tryStatementExitLine;}
   bool getTried(){return tried;}
-  void execute(){
 
+
+  void execute(){
     switch (myStatement->getAction()) {
         case NoAction:
           printf("No action selected.\n");
@@ -734,6 +796,7 @@ public:
           break;
         case TrySinkAction:
         {
+          printf("\n\n\n\n\n\n\n\nmade it to try sink action!!\n\n\n\n\n\n\n\n"); ///------------------------------------------------
           TrySink* tSink = dynamic_cast<TrySink*>(myStatement);
           tSink->execute();
           tried = tSink->getChangeDirections();
@@ -753,7 +816,15 @@ private:
   int tryStatementExitLine;
 
 public:
-  BeginTryStatement(){ }
+  BeginTryStatement(){
+    this->action = BeginTryStatementAction;
+  }
+
+  ~BeginTryStatement(){}
+
+  //deep copy constructor
+  Statement *Clone() { return new BeginTryStatement(*this); }
+
   void setTryStatementExitLine(int tryStatementExitLine){this->tryStatementExitLine = tryStatementExitLine;}
   void setTryStatementID(int tryStatementID){this->tryStatementID = tryStatementID;}
   int getTryStatementID(){return tryStatementID;}
@@ -767,7 +838,13 @@ private:
   int tryStatementID;
 
 public:
-  EndTryStatement(){ }
+  EndTryStatement(){
+    this->action = EndTryStatementAction;
+  }
+  ~EndTryStatement(){}
+  //deep copy constructor
+  Statement *Clone() { return new EndTryStatement(*this); }
+
   void setTryStatementID(int tryStatementID){this->tryStatementID = tryStatementID;}
   int getTryStatementID(){return tryStatementID;}
   void execute(){ }
