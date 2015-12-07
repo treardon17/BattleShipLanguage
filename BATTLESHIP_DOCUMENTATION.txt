@@ -1,0 +1,318 @@
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+//  Battleship Language      ///////////////////////////////////////////////////////
+//  Author: Tyler Reardon    ///////////////////////////////////////////////////////
+//  Version: 1.0             ///////////////////////////////////////////////////////
+//  Release date: 12/6/15    ///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////
+PLAYER CREATION:
+////////////////////////////////////////////////////////////////////////////////////
+------------------------------------------------------------------------------------
+KEYWORD:      computer
+
+DESCRIPTION:
+  Creates a variable of type computer that must be assigned a string name through the
+newComputer() method described below.  Computers can play against other computers
+to test different strategies.  They can also play against other players so games can
+be played single player.
+
+EXAMPLE:
+  computer myComputer
+    ^^        ^^
+  keyword | name of variable to be referenced in code
+------------------------------------------------------------------------------------
+KEYWORD:      player
+
+DESCRIPTION:
+  Creates a variable of type player that must be assigned a string name through the
+newPlayer() method described below.  Players can play against other players as well as
+against computers.
+
+EXAMPLE:
+    player myPlayer
+     ^^       ^^
+  keyword | name of variable to be referenced in code
+------------------------------------------------------------------------------------
+KEYWORD:      newComputer()
+
+DESCRIPTION:
+  Assigns a name to the computer variable and initializes the computer player.
+
+EXAMPLE:
+    myComputer = newComputer("myComputerName")
+      ^^            ^^            ^^
+variable name |   keyword   |   name given to computer that will show up on screen of game
+------------------------------------------------------------------------------------
+KEYWORD:      newPlayer()
+
+DESCRIPTION:
+  Assigns a name to the player variable and initializes the player.
+
+EXAMPLE:
+    myComputer = newComputer("myComputerName")
+      ^^            ^^            ^^
+variable name |   keyword   |   name given to player that will show up on screen of game
+------------------------------------------------------------------------------------
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+SYMBOLS:
+////////////////////////////////////////////////////////////////////////////////////
+------------------------------------------------------------------------------------
+SYMBOL:       ->
+NAME:         Action Op
+DESCRIPTION:
+  Allows variables to call functions and interact with other variables
+
+EXAMPLES:
+  var->action()->var2
+  var->action2()
+------------------------------------------------------------------------------------
+SYMBOL:       :
+NAME:         Statement begin
+DESCRIPTION:
+  Signifies the beginning of a statement
+
+EXAMPLES:
+  statement_name:
+------------------------------------------------------------------------------------
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+FUNCTIONS:
+////////////////////////////////////////////////////////////////////////////////////
+------------------------------------------------------------------------------------
+FUNCTION NAME:              addBoat()
+PERTAINS TO:                computer and player types
+ARGUMENTS:                  "type of boat",'col letter', row number, 'direction'
+ARGUMENT DESCRIPTIONS:
+
+  Type of boat:             specifies the length/type of the boat being placed
+      "aircraftcarrier":    size 5
+      "battleship":         size 4
+      "submarine":          size 3
+      "destroyer":          size 3
+      "patrolboat":         size 2
+
+  Col letter:               Any lowercase letter between 'a' and 'o',
+                            specifying the vertical location on the grid
+
+  Row number:               Any number number between 1 and 15,
+                            specifying the horizontal location on the grid
+
+  Direction:                'v' or 'h' corresponding to vertical and horizontal
+                            specifying whether the boat should be placed vertically
+                            or horizontally
+
+FUNCTION DESCRIPTION:
+    Places a boat of user specified type on a user specified grid point in a user specified direction.
+  If placed vertically, the user specified grid point is the 'top' of the boat.  If placed horizontally
+  the user specified grid point is the 'far left' of the boat.
+
+EXAMPLE:
+  var->addBoat("aircraftcarrier", 'a', 1, 'h')
+
+  Has output (with the 1s signifying the boat number)
+
+        A B C D E F G H I J K L M N O
+    |1 |1 1 1 1 1 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |2 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |3 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |4 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |5 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |6 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |7 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |8 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |9 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |10|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |11|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |12|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |13|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |14|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |15|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+
+------------------------------------------------------------------------------------
+FUNCTION NAME:              randomlyAddBoats()
+PERTAINS TO:                computer and player types
+ARGUMENTS:                  number of total boats the user will end with
+ARGUMENT DESCRIPTIONS:
+
+  Number of boats:          an integer value
+
+FUNCTION DESCRIPTION:
+    Places randomly sized boats in random locations.  The boats are placed both
+  vertically and horizontally in a random fashion.
+
+EXAMPLE:
+  var->randomlyAddBoats(9)
+
+  Has output (with the #s on the grid signifying the boat number)
+
+        A B C D E F G H I J K L M N O
+    |1 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |2 |◙ ◙ ◙ ◙ ◙ ◙ 8 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |3 |◙ ◙ ◙ ◙ ◙ ◙ 8 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |4 |◙ ◙ ◙ ◙ ◙ ◙ 8 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |5 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |6 |◙ ◙ ◙ ◙ ◙ 6 6 6 ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |7 |◙ 2 2 2 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |8 |◙ ◙ ◙ ◙ ◙ 9 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |9 |◙ ◙ ◙ ◙ ◙ 9 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 7
+    |10|◙ ◙ ◙ ◙ ◙ 9 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 7
+    |11|◙ 5 ◙ ◙ 1 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 7
+    |12|◙ 5 ◙ ◙ 1 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |13|◙ 5 ◙ ◙ ◙ ◙ ◙ ◙ 3 3 3 3 ◙ ◙ ◙
+    |14|◙ 5 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |15|◙ 4 4 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+
+------------------------------------------------------------------------------------
+FUNCTION NAME:              findsBoat()
+PERTAINS TO:                computer type
+ARGUMENTS:                  None
+ARGUMENT DESCRIPTIONS:      None
+
+FUNCTION DESCRIPTION:
+    Returns true if a computer hits its opponent's boat and remains true until
+  the computer sinks a boat.
+
+EXAMPLE:
+  if var->findsBoat():
+    do this...
+  endif.
+------------------------------------------------------------------------------------
+UNCTION NAME:                   seek()
+PERTAINS TO:                    computer type
+ARGUMENTS:                      horizontal seek distance, vertical seek distance
+ARGUMENT DESCRIPTIONS:
+
+    Horizontal seek distance:   The distance the computer will try to attack from its
+                                attack point horizontally
+
+    Vertical seek distance:     The distance the computer will try to seek vertically
+                                once it has completed the full row horizontally
+
+FUNCTION DESCRIPTION:
+    The seek function starts in a random location and then seeks horizontally until
+  it hits the edge of the grid.  If the computer tries to hit a place it has already
+  tried, it looks for the next available place on the grid.
+
+EXAMPLE:
+  var->seek(2,2)->var2
+  ^^                ^^
+  attacker          attacked
+------------------------------------------------------------------------------------
+UNCTION NAME:                   trySink()
+PERTAINS TO:                    computer type
+ARGUMENTS:                      direction, seek distance
+ARGUMENT DESCRIPTIONS:
+
+    Direction:                  The direction the computer will try to attack
+      "left"
+      "right"
+      "up"
+      "down"
+
+    Seek Distance:              The distance the computer will try to seek in the direction
+                                specified by the direction argument
+
+FUNCTION DESCRIPTION:
+    The trySink function will continue in the specified direction until it sinks a boat.
+
+EXAMPLE:
+  var->trySink("left",2)->var2
+  ^^                       ^^
+  attacker               attacked
+------------------------------------------------------------------------------------
+UNCTION NAME:                   show()
+PERTAINS TO:                    computer and player types
+ARGUMENTS:                      None
+ARGUMENT DESCRIPTIONS:          None
+
+FUNCTION DESCRIPTION:
+    Shows the player's boats and previous tries. The top grid represents previous tries.
+  Diamonds represent misses, circles represent hits, and squares represent grid points
+  that have not been attempted yet.  The bottom grid represents the player's personal
+  grid.  The number represents the boat number.  The output will be yellow if the boat
+  grid point hasn't been hit yet, but it will show red if it has been hit.
+
+EXAMPLE:
+  var->show()
+
+  Has potential output:
+
+-------------------------------------
+  Player name: var
+
+    A B C D E F G H I J K L M N O
+|1 |◊ ◊ ◉ ◉ ◊ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|2 |◙ ◙ ◊ ◊ ◙ ◊ ◊ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙
+|3 |◊ ◊ ◉ ◉ ◉ ◉ ◉ ◉ ◉ ◊ ◊ ◉ ◉ ◉ ◊
+|4 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊
+|5 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
+|6 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◉ ◉ ◊ ◙
+|7 |◊ ◙ ◊ ◙ ◉ ◙ ◊ ◊ ◊ ◊ ◙ ◊ ◙ ◊ ◙
+|8 |◊ ◙ ◊ ◙ ◉ ◊ ◊ ◉ ◉ ◉ ◊ ◙ ◊ ◙ ◊
+|9 |◊ ◙ ◊ ◙ ◉ ◊ ◙ ◊ ◙ ◊ ◊ ◊ ◙ ◊ ◙
+|10|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◉ ◊
+|11|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙
+|12|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
+|13|◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◊ ◙ ◊ ◙ ◊ ◙
+|14|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙
+|15|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
+    A B C D E F G H I J K L M N O
+|1 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|2 |◙ ◙ ◙ ◙ ◙ ◙ ◙ 8 8 ◙ ◙ ◙ ◙ ◙ ◙
+|3 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 2 2 2 ◙
+|4 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|5 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|6 |◙ ◙ ◙ ◙ 7 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|7 |◙ ◙ ◙ ◙ 7 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|8 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|9 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 3 3 3 3 3 ◙
+|10|◙ ◙ ◙ ◙ 5 5 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|11|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+|12|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 9 9 ◙ ◙ ◙ 4
+|13|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 4
+|14|◙ ◙ ◙ ◙ ◙ ◙ 1 1 ◙ ◙ ◙ ◙ ◙ ◙ 4
+|15|◙ 6 6 6 6 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+_____________________________________
+var's Stats:
+Successful Hits: 30
+Successful Sinks: 9
+Misses: 108
+opponent has 9 boats
+opponent has 0 boats left
+_____________________________________
+opponent hit you 13 time(s)
+opponent sank 4 of your boats
+You have 9 boat(s)
+You have 5 boat(s) left
+_____________________________________
+------------------------------------------------------------------------------------
+
+
+////////////////////////////////////////////////////////////////////////////////////
+LOGICAL OPERATORS:
+////////////////////////////////////////////////////////////////////////////////////
+------------------------------------------------------------------------------------
+OPERATOR:     loop
+REQUIREMENTS: endloop. is needed to denote the ending line of the loop.
+DESCRIPTION:
+    Allows for performing operations multiple times in the code until a condition is met.
+  Unless the user knows exactly how many turns it will take to defeat the opponent, a loop
+  is necessary to play the game in its entirety.  The loop will execute until one player
+  sinks every boat the opponent has.
+
+EXAMPLE:
+  loop:
+      actions to loop...
+  endloop.
+
+------------------------------------------------------------------------------------
+
+TODO: if/else, begintry, try
