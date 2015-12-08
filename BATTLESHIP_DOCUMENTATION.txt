@@ -206,7 +206,7 @@ EXAMPLE:
   ^^                ^^
   attacker          attacked
 ------------------------------------------------------------------------------------
-UNCTION NAME:                   trySink()
+FUNCTION NAME:                   trySink()
 PERTAINS TO:                    computer type
 ARGUMENTS:                      direction, seek distance
 ARGUMENT DESCRIPTIONS:
@@ -245,54 +245,76 @@ EXAMPLE:
 
   Has potential output:
 
--------------------------------------
-  Player name: var
+    -------------------------------------
+      Player name: var
 
-    A B C D E F G H I J K L M N O
-|1 |◊ ◊ ◉ ◉ ◊ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|2 |◙ ◙ ◊ ◊ ◙ ◊ ◊ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙
-|3 |◊ ◊ ◉ ◉ ◉ ◉ ◉ ◉ ◉ ◊ ◊ ◉ ◉ ◉ ◊
-|4 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊
-|5 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
-|6 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◉ ◉ ◊ ◙
-|7 |◊ ◙ ◊ ◙ ◉ ◙ ◊ ◊ ◊ ◊ ◙ ◊ ◙ ◊ ◙
-|8 |◊ ◙ ◊ ◙ ◉ ◊ ◊ ◉ ◉ ◉ ◊ ◙ ◊ ◙ ◊
-|9 |◊ ◙ ◊ ◙ ◉ ◊ ◙ ◊ ◙ ◊ ◊ ◊ ◙ ◊ ◙
-|10|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◉ ◊
-|11|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙
-|12|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
-|13|◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◊ ◙ ◊ ◙ ◊ ◙
-|14|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙
-|15|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
-    A B C D E F G H I J K L M N O
-|1 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|2 |◙ ◙ ◙ ◙ ◙ ◙ ◙ 8 8 ◙ ◙ ◙ ◙ ◙ ◙
-|3 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 2 2 2 ◙
-|4 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|5 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|6 |◙ ◙ ◙ ◙ 7 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|7 |◙ ◙ ◙ ◙ 7 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|8 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|9 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 3 3 3 3 3 ◙
-|10|◙ ◙ ◙ ◙ 5 5 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|11|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-|12|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 9 9 ◙ ◙ ◙ 4
-|13|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 4
-|14|◙ ◙ ◙ ◙ ◙ ◙ 1 1 ◙ ◙ ◙ ◙ ◙ ◙ 4
-|15|◙ 6 6 6 6 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
-_____________________________________
-var's Stats:
-Successful Hits: 30
-Successful Sinks: 9
-Misses: 108
-opponent has 9 boats
-opponent has 0 boats left
-_____________________________________
-opponent hit you 13 time(s)
-opponent sank 4 of your boats
-You have 9 boat(s)
-You have 5 boat(s) left
-_____________________________________
+        A B C D E F G H I J K L M N O
+    |1 |◊ ◊ ◉ ◉ ◊ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |2 |◙ ◙ ◊ ◊ ◙ ◊ ◊ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙
+    |3 |◊ ◊ ◉ ◉ ◉ ◉ ◉ ◉ ◉ ◊ ◊ ◉ ◉ ◉ ◊
+    |4 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊
+    |5 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
+    |6 |◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◉ ◉ ◊ ◙
+    |7 |◊ ◙ ◊ ◙ ◉ ◙ ◊ ◊ ◊ ◊ ◙ ◊ ◙ ◊ ◙
+    |8 |◊ ◙ ◊ ◙ ◉ ◊ ◊ ◉ ◉ ◉ ◊ ◙ ◊ ◙ ◊
+    |9 |◊ ◙ ◊ ◙ ◉ ◊ ◙ ◊ ◙ ◊ ◊ ◊ ◙ ◊ ◙
+    |10|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◉ ◊
+    |11|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙
+    |12|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
+    |13|◊ ◙ ◊ ◙ ◊ ◊ ◉ ◉ ◉ ◊ ◙ ◊ ◙ ◊ ◙
+    |14|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙
+    |15|◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊ ◙ ◊
+        A B C D E F G H I J K L M N O
+    |1 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |2 |◙ ◙ ◙ ◙ ◙ ◙ ◙ 8 8 ◙ ◙ ◙ ◙ ◙ ◙
+    |3 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 2 2 2 ◙
+    |4 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |5 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |6 |◙ ◙ ◙ ◙ 7 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |7 |◙ ◙ ◙ ◙ 7 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |8 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |9 |◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 3 3 3 3 3 ◙
+    |10|◙ ◙ ◙ ◙ 5 5 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |11|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    |12|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 9 9 ◙ ◙ ◙ 4
+    |13|◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ 4
+    |14|◙ ◙ ◙ ◙ ◙ ◙ 1 1 ◙ ◙ ◙ ◙ ◙ ◙ 4
+    |15|◙ 6 6 6 6 ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙ ◙
+    _____________________________________
+    var's Stats:
+    Successful Hits: 30
+    Successful Sinks: 9
+    Misses: 108
+    opponent has 9 boats
+    opponent has 0 boats left
+    _____________________________________
+    opponent hit you 13 time(s)
+    opponent sank 4 of your boats
+    You have 9 boat(s)
+    You have 5 boat(s) left
+    _____________________________________
+------------------------------------------------------------------------------------
+UNCTION NAME:                   attackBoat()
+PERTAINS TO:                    computer and player types
+ARGUMENTS:                      "grid point"
+ARGUMENT DESCRIPTIONS:
+    A single alphabetic character between 'a' and 'o' followed by a number between 0 and 15.
+  The argument should appear in double quotes and there should be no spaces between the character
+  and the number.
+
+FUNCTION DESCRIPTION:
+    This function allows a predetermined grid point to be attacked.  The given argument will be the
+  point attacked.  If no grid point is given and rather an empty string ("") is given, user input will
+  be required.  This is useful for human players attacking at runtime.
+
+EXAMPLE:
+  var->attackBoat("a1")->var2                     --> attacks boat at point a1
+  ^^                       ^^
+  attacker               attacked
+
+  var->attackBoat("")->var2                       --> prompts for user input
+  ^^                    ^^
+  attacker            attacked
 ------------------------------------------------------------------------------------
 
 
@@ -312,7 +334,130 @@ EXAMPLE:
   loop:
       actions to loop...
   endloop.
+------------------------------------------------------------------------------------
+OPERATOR:     if/else
+REQUIREMENTS: endif. and endelse. are needed to denote the ending line of the conditional.
+DESCRIPTION:
+    Allows for logical decisions to be made at runtime.  Currently only supports predetermined
+  boolean values such as findsBoat().  If the condition is met, the code between the if/endif. will
+  be executed, otherwise that code will be skipped.  If an else statement follows the endif., that block
+  of code will be executed if the condition wasn't met.
 
+EXAMPLE:
+  if var->findsBoat():
+    do stuff here...
+  endif.
+  else:
+    do other stuff here...
+  endelse.
+------------------------------------------------------------------------------------
+OPERATOR:     begintry/try
+REQUIREMENTS: endtry. is needed to terminate the try block, priority # required to
+              specify which statement will be tried in which order.
+
+DESCRIPTION:
+    A try block is similar to an if statement, but it doesn't take a user specified condition.
+  The try block is designed to work inside of a loop. Each iteration through the loop every statement
+  will be examined to see if it has been executed yet. The highest priority statement that has not
+  yet been executed, will be executed during that iteration through the loop. If that statement still
+  evaluates to true after it has been executed, it will be executed again during the next iteration through
+  the loop.
+
+EXAMPLE:
+
+  This try block will first try to sink var2's boat by going left one space at a time. If var successfully hits
+var2, it will continue in that direction, otherwise it will evaluate to false and change direction to right and so on.
+
+  begintry:
+    1.try: var->trySink("left", 1)->var2
+    2.try: var->trySink("right", 1)->var2
+    3.try: var->trySink("up"), 1)->var2
+    4.try: var->trySink("down", 1)->var2
+  endtry.
 ------------------------------------------------------------------------------------
 
-TODO: if/else, begintry, try
+
+////////////////////////////////////////////////////////////////////////////////////
+EXAMPLE PROGRAMS:
+////////////////////////////////////////////////////////////////////////////////////
+------------------------------------------------------------------------------------
+computer Vlad
+computer Putin
+Vlad = newComputer("Vlad")
+Putin = newComputer("Putin")
+Vlad->addBoat("patrolboat", 'g', 14, 'h')
+Vlad->randomlyAddBoats(9)
+Putin->randomlyAddBoats(9)
+loop:
+  if Vlad->findsBoat():
+    begintry:
+      1.try: Vlad->trySink("left",1)->Putin
+      2.try: Vlad->trySink("right",1)->Putin
+      3.try: Vlad->trySink("up",1)->Putin
+      4.try: Vlad->trySink("down",1)->Putin
+    endtry.
+  endif.
+  else:
+    Vlad->seek(2,1)->Putin
+  endelse.
+
+  if Putin->findsBoat():
+    Putin->trySink("up",1)->Vlad
+  endif.
+  else:
+    Putin->seek(2,1)->Vlad
+  endelse.
+endloop.
+
+Putin->show()
+Vlad->show()
+------------------------------------------------------------------------------------
+player Tyler
+computer Putin
+Tyler = newPlayer("Tyler")
+Putin = newComputer("Putin")
+Tyler->randomlyAddBoats(9)
+Putin->randomlyAddBoats(9)
+loop:
+  Tyler->attack("")->Putin
+  if Putin->findsBoat():
+    begintry:
+      1.try: Putin->trySink("left",1)->Tyler
+      2.try: Putin->trySink("right",1)->Tyler
+      3.try: Putin->trySink("up",1)->Tyler
+      4.try: Putin->trySink("down",1)->Tyler
+    endtry.
+    Putin->show()
+  endif.
+  else:
+    Putin->seek(3,1)->Tyler
+  endelse.
+endloop.
+------------------------------------------------------------------------------------
+computer Vlad
+computer Putin
+Vlad = newComputer("Vlad")
+Putin = newComputer("Putin")
+Vlad->addBoat("patrolboat", 'g', 14, 'h')
+Vlad->randomlyAddBoats(9)
+Putin->randomlyAddBoats(9)
+loop:
+  if Vlad->findsBoat():
+    begintry:
+      1.try: Vlad->trySink("left",1)->Putin
+      2.try: Vlad->trySink("right",1)->Putin
+      3.try: Vlad->trySink("up",1)->Putin
+      4.try: Vlad->trySink("down",1)->Putin
+    endtry.
+  endif.
+  else:
+    Vlad->seek(2,2)->Putin
+  endelse.
+
+  Putin->seek(4,4)->Vlad
+
+endloop.
+
+Putin->show()
+Vlad->show()
+------------------------------------------------------------------------------------
